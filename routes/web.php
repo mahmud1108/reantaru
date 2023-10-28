@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\LoginAdminController;
+use App\Http\Controllers\ShopController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,10 +20,14 @@ use Illuminate\Support\Facades\Route;
 Route::view('admin/login', 'admin.login')->name('login-admin');
 Route::post('admin/login', [LoginAdminController::class, 'login'])->name('login-act');
 
+Route::get('/', [ShopController::class, 'index'])->name('shop-index');
+
 Route::group([
     'middleware' => 'admin',
     'prefix' => 'admin'
 ], function () {
     route::get('dashboard', [DashboardController::class, 'index'])->name('admin-dashboard');
     route::get('logout', [LoginAdminController::class, 'logout'])->name('admin-logout');
+
+    route::resource('kategori', KategoriController::class)->only('index', 'store', 'update', 'destroy');
 });

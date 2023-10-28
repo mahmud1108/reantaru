@@ -9,6 +9,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        return view('admin.dashboard');
+        $title = 'Dashboard';
+        return view('admin.dashboard', compact('title'));
     }
 }

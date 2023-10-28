@@ -23,7 +23,11 @@ class AdminMiddleware
             in_array($user->role, ['admin', 'super admin']) &&
             $user->status === 'aktif'
         ) {
-            toast('Berhasil login sebagai ' . auth()->user()->role, 'success');
+            if ($user->status !== 'aktif') {
+                toast('Akun anda tidak aktif', 'error');
+                return redirect()->route('login-admin');
+            }
+            // toast('Berhasil login sebagai ' . auth()->user()->role, 'success');
             return $next($request);
         }
 
