@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\LoginAdminController;
 use App\Http\Controllers\Admin\ProdukController;
+use App\Http\Controllers\Admin\VarianController;
 use App\Http\Controllers\ShopController;
 use Illuminate\Support\Facades\Route;
 
@@ -32,4 +33,5 @@ Route::group([
 
     route::resource('kategori', KategoriController::class)->only('index', 'store', 'update', 'destroy');
     Route::resource('produk', ProdukController::class);
+    Route::resource('varian', VarianController::class);
 });

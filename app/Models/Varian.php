@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Varian extends Model
 {
     use HasFactory;
+
+    protected $guarded = 'id';
+
+    public function atribut()
+    {
+        return $this->hasMany(Atribut::class);
+    }
 }

@@ -92,12 +92,14 @@ class ProdukController extends Controller
      */
     public function update(UpdateProdukRequest $request, Produk $produk)
     {
+        dd($request->all());
         Produk::where('id', $produk->id)
             ->update([
                 'produk_nama' => $request->produk_nama,
                 'produk_harga' => $request->produk_harga,
                 'kategori_id' => $request->kategori_id,
-                'produk_keterangan' => $request->produk_keterangan
+                'produk_keterangan' => $request->produk_keterangan,
+                'produk_status' => $request->produk_status
             ]);
 
         toast("Berhasil mengubah data " . $produk->produk_nama, 'success');

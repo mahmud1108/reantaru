@@ -25,4 +25,9 @@ class Produk extends Model
     {
         return $this->belongsTo(Kategori::class);
     }
+
+    public function varian()
+    {
+        return $this->hasMany(Varian::class);
+    }
 }

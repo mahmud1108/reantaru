@@ -34,8 +34,10 @@
                             <th>No</th>
                             <th>Nama</th>
                             <th>Harga</th>
-                            <th>Tanggal</th>
+                            <th>Tanggal Ditambahkan</th>
                             <th>Kategori</th>
+                            <th>Status</th>
+                            <th>Varian</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -47,14 +49,22 @@
                                 <td>Rp. {{ number_format($produk->produk_harga, 0, ',', '.') }}</td>
                                 <td>{{ $data[$loop->iteration - 1]['tanggal'] }}</td>
                                 <td>{{ $produk->kategori->kategori_nama }}</td>
+                                <td>{{ $produk->produk_status }}</td>
+                                <td>
+                                    {{ count($produk->varian) }}
+
+                                    <a title="Detail varian" href="{{ route('varian.show', ['varian' => $produk->id]) }}"
+                                        class="btn btn-outline-primary btn-rounded"><i class="fas fa-eye"></i></a>
+
+                                </td>
                                 <td>
                                     <button title="Ubah produk" class="btn btn-outline-info btn-rounded" id="edit_btn"
                                         data-bs-toggle="modal" data-bs-target="#edit" data-id_ubah="{{ $produk->id }}"
                                         data-produk_nama_ubah="{{ $produk->produk_nama }}"
                                         data-kategori="{{ $produk->kategori_id }}"
                                         data-produk_harga="{{ $produk->produk_harga }}"
-                                        data-produk_keterangan="{{ $produk->produk_keterangan }}"><i
-                                            class="fas fa-pen"></i></button>
+                                        data-produk_keterangan="{{ $produk->produk_keterangan }}"
+                                        data-status="{{ $produk->produk_status }}"><i class="fas fa-pen"></i></button>
 
                                     <button title="Hapus produk" class="btn btn-outline-danger btn-rounded" id="delete_btn"
                                         data-bs-toggle="modal" data-bs-target="#delete" data-id="{{ $produk->id }}"
@@ -152,6 +162,23 @@
                             <textarea name="produk_keterangan" id="produk_keterangan" class="form-control summernote" cols="30"
                                 rows="10"></textarea>
                         </div>
+                        <div>
+                            <label class="form-label">Produk Status</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" value="aktif" name="produk_status"
+                                id="radio1">
+                            <label class="form-check-label" for="radio1">
+                                Aktif
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" value="tidak aktif" type="radio" name="produk_status"
+                                id="radio2" checked>
+                            <label class="form-check-label" for="radio2">
+                                Tidak aktif
+                            </label>
+                        </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary close-modal" data-bs-dismiss="modal">Close</button>
@@ -211,6 +238,7 @@
                 let kategori = $(this).data('kategori')
                 let produk_harga = $(this).data('produk_harga')
                 let produk_keterangan = $(this).data('produk_keterangan')
+                let produk_status = $(this).data('status')
 
                 let item = document.querySelectorAll('.item-kategori')
 
@@ -223,8 +251,18 @@
                     }
                 }
 
+
                 let action = "produk/"
                 let gabung = action.concat(id_ubah)
+
+                let radio1 = document.getElementById('radio1')
+                let radio2 = document.getElementById('radio2')
+
+                if (radio1.value == produk_status) {
+                    radio1.checked = true
+                } else {
+                    radio2.checked = true
+                }
 
                 let a = document.getElementById('update_produk').action = gabung
                 $('#produk_nama_ubah').val(produk_nama_ubah)
