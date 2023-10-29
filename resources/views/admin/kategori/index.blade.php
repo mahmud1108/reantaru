@@ -181,7 +181,6 @@
 
                 let url = 'kategori/'
                 let url_update = url.concat(id_ubah)
-                console.log(url_update);
 
                 document.getElementById('update_kategori').action = url_update
                 document.getElementById("gambar_edit").src = edit_gabung

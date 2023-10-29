@@ -33,6 +33,9 @@
                         <tr>
                             <th>No</th>
                             <th>Nama</th>
+                            <th>Harga</th>
+                            <th>Tanggal</th>
+                            <th>Kategori</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -41,17 +44,22 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $produk->produk_nama }}</td>
+                                <td>Rp. {{ number_format($produk->produk_harga, 0, ',', '.') }}</td>
+                                <td>{{ $data[$loop->iteration - 1]['tanggal'] }}</td>
+                                <td>{{ $produk->kategori->kategori_nama }}</td>
                                 <td>
-                                    {{-- <button title="Ubah produk" class="btn btn-outline-info btn-rounded" id="edit_btn"
-                                        data-bs-toggle="modal" data-bs-target="#edit" data-id="{{ $produk->id }}"
+                                    <button title="Ubah produk" class="btn btn-outline-info btn-rounded" id="edit_btn"
+                                        data-bs-toggle="modal" data-bs-target="#edit" data-id_ubah="{{ $produk->id }}"
                                         data-produk_nama_ubah="{{ $produk->produk_nama }}"
-                                        data-produk_gambar="{{ $produk->produk_gambar }}"><i
+                                        data-kategori="{{ $produk->kategori_id }}"
+                                        data-produk_harga="{{ $produk->produk_harga }}"
+                                        data-produk_keterangan="{{ $produk->produk_keterangan }}"><i
                                             class="fas fa-pen"></i></button>
 
                                     <button title="Hapus produk" class="btn btn-outline-danger btn-rounded" id="delete_btn"
                                         data-bs-toggle="modal" data-bs-target="#delete" data-id="{{ $produk->id }}"
                                         data-produk_nama="{{ $produk->produk_nama }}"><i class="fas fa-trash"></i></button>
-                                </td> --}}
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -92,7 +100,7 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Produk Keterangan</label>
-                            <textarea name="produk_keterangan" id="summernote" class="form-control" required cols="30" rows="10"></textarea>
+                            <textarea name="produk_keterangan" class="form-control summernote" required cols="30" rows="10"></textarea>
                         </div>
                 </div>
                 <div class="modal-footer">
@@ -108,31 +116,45 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Ubah Kategori</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title">Ubah Produk</h5>
+                    <button type="button" class="btn-close close-modal" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
                 <div class="modal-body text-start">
-                    <form enctype="multipart/form-data" id="update_kategori" method="post">
+                    <form enctype="multipart/form-data" id="update_produk" method="post">
                         @method('PUT')
                         @csrf
                         <div class="mb-3">
-                            <label class="form-label">Nama Kategori</label>
-                            <input type="text" name="nama_kategori" placeholder="Nama Kategori" id="kategori_nama_ubah"
+                            <label class="form-label">Nama Produk</label>
+                            <input type="text" name="produk_nama" placeholder="Nama Produk" id="produk_nama_ubah"
                                 class="form-control">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Gambar saat ini</label>
-                            <br>
-                            <img width="30%" id="gambar_edit" alt="">
+                            <label class="form-label">Harga Produk</label>
+                            <input type="text" name="produk_harga" placeholder="Harga Produk" id="produk_harga"
+                                class="form-control">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Gambar Kategori</label>
-                            <input type="file" name="gambar_kategori" accept="image/*" placeholder="Foto kategori"
-                                class="form-control">
+                            <label class="form-label">Produk Kategori</label>
+                            <select name="kategori_id" class="form-select">
+                                <option value="">Pilih Kategori</option>
+                                <span id="kategori">
+                                    @foreach ($kategoris as $kategori)
+                                        <option value="{{ $kategori->id }}"
+                                            class="item-kategori pilih-kategori{{ $loop->iteration }}">
+                                            {{ $kategori->kategori_nama }}</option>
+                                    @endforeach
+                                </span>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="" class="form-control">Produk Keterangan</label>
+                            <textarea name="produk_keterangan" id="produk_keterangan" class="form-control summernote" cols="30"
+                                rows="10"></textarea>
                         </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary close-modal" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Ubah Kategori</button>
                 </div>
                 </form>
@@ -149,7 +171,7 @@
                 </div>
                 <div class="modal-body text-center">
                     <h3>
-                        Yakin hapus kategori <b><span id="kategori_nama" style="color: red"></span></b> ?
+                        Yakin hapus produk <b><span id="produk_nama" style="color: red"></span></b> ?
                     </h3>
                 </div>
                 <div class="modal-footer">
@@ -170,13 +192,13 @@
         $(document).ready(function() {
             $(document).on('click', '#delete_btn', function() {
                 let id = $(this).data('id');
-                let kategori_nama = $(this).data('kategori_nama');
+                let produk_nama = $(this).data('produk_nama');
 
-                let action = "kategori/"
+                let action = "produk/"
                 let gabung = action.concat(id)
 
                 document.getElementById("form_delete").action = gabung
-                $('#kategori_nama').html(kategori_nama);
+                $('#produk_nama').html(produk_nama);
             });
         });
     </script>
@@ -184,19 +206,36 @@
     <script>
         $(document).ready(function() {
             $(document).on('click', '#edit_btn', function() {
-                let id_ubah = $(this).data('id')
-                let kategori_nama_ubah = $(this).data('kategori_nama_ubah')
-                let get_edit_gambar = $(this).data('kategori_gambar')
+                let id_ubah = $(this).data('id_ubah')
+                let produk_nama_ubah = $(this).data('produk_nama_ubah')
+                let kategori = $(this).data('kategori')
+                let produk_harga = $(this).data('produk_harga')
+                let produk_keterangan = $(this).data('produk_keterangan')
 
-                let edit_gabung = window.location.origin + "/" + get_edit_gambar
+                let item = document.querySelectorAll('.item-kategori')
 
-                let url = 'kategori/'
-                let url_update = url.concat(id_ubah)
-                console.log(url_update);
+                for (let index = 1; index <= item.length; index++) {
+                    let option = document.querySelectorAll('.pilih-kategori' + index)
+                    for (let j = 0; j < option.length; j++) {
+                        if (option[j].value == kategori) {
+                            option[j].selected = true
+                        }
+                    }
+                }
 
-                document.getElementById('update_kategori').action = url_update
-                document.getElementById("gambar_edit").src = edit_gabung
-                $('#kategori_nama_ubah').val(kategori_nama_ubah)
+                let action = "produk/"
+                let gabung = action.concat(id_ubah)
+
+                let a = document.getElementById('update_produk').action = gabung
+                $('#produk_nama_ubah').val(produk_nama_ubah)
+                $('#produk_harga').val(produk_harga)
+                $('#produk_keterangan').summernote('pasteHTML', produk_keterangan);
+            });
+        });
+
+        $(document).ready(function() {
+            $(".close-modal").on("click", function() {
+                $("#produk_keterangan").summernote('reset');
             });
         });
     </script>
