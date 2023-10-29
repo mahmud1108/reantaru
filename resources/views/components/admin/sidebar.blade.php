@@ -10,7 +10,7 @@
             <a href="{{ route('kategori.index') }}"><i class="fas fa-file-alt"></i> Kategori</a>
         </li>
         <li>
-            <a href="tables.html"><i class="fas fa-table"></i> Tables</a>
+            <a href="{{ route('produk.index') }}"><i class="fas fa-shopping-cart"></i> Produk</a>
         </li>
         <li>
             <a href="charts.html"><i class="fas fa-chart-bar"></i> Charts</a>

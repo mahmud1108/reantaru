@@ -4,12 +4,12 @@
     <div class="page-title">
         <div class="row mb-3 mt-4">
             <div class="col-md-6">
-                Daftar Kategori
+                Daftar Produk
             </div>
             <div class="col-md-6">
                 <a class="btn btn-sm btn-outline-primary float-end" data-bs-toggle="modal" data-bs-target="#tambah">
                     <i class="fas fa-plus"></i>
-                    Tambah Kategori
+                    Tambah Produk
                 </a>
             </div>
         </div>
@@ -17,9 +17,8 @@
 
     @if ($errors->any())
         @foreach ($errors->all() as $error)
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <div class="alert alert-warning alert-dismissible fade show elemen-halus" role="alert">
                 {{ $error }}
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
         @endforeach
     @endif
@@ -38,23 +37,21 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($kategoris as $kategori)
+                        @foreach ($produks as $produk)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $kategori->kategori_nama }}</td>
+                                <td>{{ $produk->produk_nama }}</td>
                                 <td>
-                                    </button>
-                                    <button title="Ubah kategori" class="btn btn-outline-info btn-rounded" id="edit_btn"
-                                        data-bs-toggle="modal" data-bs-target="#edit" data-id="{{ $kategori->id }}"
-                                        data-kategori_nama_ubah="{{ $kategori->kategori_nama }}"
-                                        data-kategori_gambar="{{ $kategori->kategori_gambar }}"><i
+                                    {{-- <button title="Ubah produk" class="btn btn-outline-info btn-rounded" id="edit_btn"
+                                        data-bs-toggle="modal" data-bs-target="#edit" data-id="{{ $produk->id }}"
+                                        data-produk_nama_ubah="{{ $produk->produk_nama }}"
+                                        data-produk_gambar="{{ $produk->produk_gambar }}"><i
                                             class="fas fa-pen"></i></button>
 
-                                    <button title="Hapus kategori" class="btn btn-outline-danger btn-rounded"
-                                        id="delete_btn" data-bs-toggle="modal" data-bs-target="#delete"
-                                        data-id="{{ $kategori->id }}" data-kategori_nama="{{ $kategori->kategori_nama }}"><i
-                                            class="fas fa-trash"></i></button>
-                                </td>
+                                    <button title="Hapus produk" class="btn btn-outline-danger btn-rounded" id="delete_btn"
+                                        data-bs-toggle="modal" data-bs-target="#delete" data-id="{{ $produk->id }}"
+                                        data-produk_nama="{{ $produk->produk_nama }}"><i class="fas fa-trash"></i></button>
+                                </td> --}}
                             </tr>
                         @endforeach
                     </tbody>
@@ -63,25 +60,39 @@
         </div>
     </div>
 
+
     <div class="modal fade" id="tambah" role="dialog" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Tambah Kategori</h5>
+                    <h5 class="modal-title">Tambah Produk</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body text-start">
-                    <form enctype="multipart/form-data" action="{{ route('kategori.store') }}" method="post">
+                    <form enctype="multipart/form-data" action="{{ route('produk.store') }}" method="post">
                         @csrf
                         <div class="mb-3">
-                            <label class="form-label">Nama Kategori</label>
-                            <input type="text" name="nama_kategori" autocomplete="off" placeholder="Nama Kategori"
+                            <label class="form-label">Nama Produk</label>
+                            <input type="text" name="produk_nama" autocomplete="off" placeholder="Nama Produk"
+                                class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="form-label">Kategori Produk</label>
+                            <select name="kategori_id" class="form-select" required>
+                                <option value="">Pilih Kategori</option>
+                                @foreach ($kategoris as $kategori)
+                                    <option value="{{ $kategori->id }}">{{ $kategori->kategori_nama }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Produk Harga</label>
+                            <input type="number" name="produk_harga" min="1" required placeholder="Harga Produk"
                                 class="form-control">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Gambar Kategori</label>
-                            <input type="file" name="gambar_kategori" accept="image/*" placeholder="Foto kategori"
-                                class="form-control">
+                            <label class="form-label">Produk Keterangan</label>
+                            <textarea name="produk_keterangan" id="summernote" class="form-control" required cols="30" rows="10"></textarea>
                         </div>
                 </div>
                 <div class="modal-footer">

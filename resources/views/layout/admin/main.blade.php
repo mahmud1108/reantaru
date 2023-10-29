@@ -19,11 +19,19 @@
     <link href="{{ asset('template/assets/css/master.css') }}" rel="stylesheet">
     <link href="{{ asset('template/assets/vendor/flagiconcss/css/flag-icon.min.css') }}" rel="stylesheet">
     <link href="{{ asset('template/assets/vendor/datatables/datatables.min.css') }}" rel="stylesheet">
-
-    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-        crossorigin="anonymous"></script>
-
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet" />
 </head>
+
+<style>
+    .elemen-halus {
+        opacity: 1;
+        transition: opacity 6s;
+    }
+
+    .elemen-hilang {
+        opacity: 0;
+    }
+</style>
 
 <body>
 
@@ -44,13 +52,40 @@
 
                 </div>
             </div>
-
         </div>
     </div>
 
     @yield('javascript')
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-    <script src="{{ asset('template/assets/vendor/jquery/jquery.min.js') }}"></script>
+    <!-- include summernote css/js -->
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
+    <script>
+        $('#summernote').summernote({
+            toolbar: [
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['fontsize', ['fontsize']],
+                ['para', ['ul', 'ol']],
+            ]
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            var elemenList = document.querySelectorAll(".elemen-halus");
+
+            elemenList.forEach(function(elemen) {
+                elemen.classList.add("elemen-hilang");
+
+                setTimeout(function() {
+                    elemen.parentNode.removeChild(elemen);
+                }, 6000); // Menunggu 1 detik (sesuai dengan durasi transisi)
+            });
+        });
+    </script>
+
     <script src="{{ asset('template/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('template/assets/js/script.js') }}"></script>
     <script src="{{ asset('template/assets/vendor/datatables/datatables.min.js') }}"></script>
