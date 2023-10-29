@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Helper\FileHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreKategoriRequest;
+use App\Http\Requests\Admin\UpdateKategoriRequest;
 use App\Models\Kategori;
 use Illuminate\Http\Request;
 
@@ -70,9 +71,25 @@ class KategoriController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Kategori $kategori)
+    public function update(UpdateKategoriRequest $request, Kategori $kategori)
     {
-        //
+        if ($request->gambar_kategori === null) {
+            Kategori::where('id', $kategori->id)
+                ->update([
+                    'kategori_nama' => $request->nama_kategori,
+                ]);
+        } else {
+            FileHelper::instance()->delete($kategori->kategori_gambar);
+            $image = FileHelper::instance()->upload($request->gambar_kategori, 'kategori');
+            Kategori::where('id', $kategori->id)
+                ->update([
+                    'kategori_nama' => $request->nama_kategori,
+                    'kategori_gambar' => $image
+                ]);
+        }
+
+        toast("Berhasil mengubah data", 'success');
+        return redirect()->route('kategori.index');
     }
 
     /**

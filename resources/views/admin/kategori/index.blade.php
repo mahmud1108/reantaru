@@ -48,7 +48,8 @@
                                     </button>
                                     <button title="Ubah kategori" class="btn btn-outline-info btn-rounded" id="edit_btn"
                                         data-bs-toggle="modal" data-bs-target="#edit" data-id="{{ $kategori->id }}"
-                                        data-kategori_nama_ubah="{{ $kategori->kategori_nama }}"><i
+                                        data-kategori_nama_ubah="{{ $kategori->kategori_nama }}"
+                                        data-kategori_gambar="{{ $kategori->kategori_gambar }}"><i
                                             class="fas fa-pen"></i></button>
 
                                     <button title="Hapus kategori" class="btn btn-outline-danger btn-rounded"
@@ -102,7 +103,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body text-start">
-                    <form enctype="multipart/form-data" action="{{ route('kategori.store') }}" method="post">
+                    <form enctype="multipart/form-data" id="update_kategori" method="post">
+                        @method('PUT')
                         @csrf
                         <div class="mb-3">
                             <label class="form-label">Nama Kategori</label>
@@ -111,7 +113,8 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Gambar saat ini</label>
-                            <img src="" alt="">
+                            <br>
+                            <img width="30%" id="gambar_edit" alt="">
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Gambar Kategori</label>
@@ -157,11 +160,11 @@
     <script>
         $(document).ready(function() {
             $(document).on('click', '#delete_btn', function() {
-                var id = $(this).data('id');
-                var kategori_nama = $(this).data('kategori_nama');
+                let id = $(this).data('id');
+                let kategori_nama = $(this).data('kategori_nama');
 
-                var action = "kategori/"
-                var gabung = action.concat(id)
+                let action = "kategori/"
+                let gabung = action.concat(id)
 
                 document.getElementById("form_delete").action = gabung
                 $('#kategori_nama').html(kategori_nama);
@@ -172,9 +175,18 @@
     <script>
         $(document).ready(function() {
             $(document).on('click', '#edit_btn', function() {
-                var id_ubah = $(this).data('id')
-                var kategori_nama_ubah = $(this).data('kategori_nama_ubah')
+                let id_ubah = $(this).data('id')
+                let kategori_nama_ubah = $(this).data('kategori_nama_ubah')
+                let get_edit_gambar = $(this).data('kategori_gambar')
 
+                let edit_gabung = window.location.origin + "/" + get_edit_gambar
+
+                let url = 'kategori/'
+                let url_update = url.concat(id_ubah)
+                console.log(url_update);
+
+                document.getElementById('update_kategori').action = url_update
+                document.getElementById("gambar_edit").src = edit_gabung
                 $('#kategori_nama_ubah').val(kategori_nama_ubah)
             });
         });
