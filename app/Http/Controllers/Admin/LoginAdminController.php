@@ -29,7 +29,7 @@ class LoginAdminController extends Controller
         ]);
         // dd(Auth::guard('admin')->attempt($creds));
         if (Auth::attempt($creds) === true) {
-            toast('Berhasil login sebagai ' . auth()->user()->role);
+            toast('Berhasil login sebagai ' . auth()->user()->role, 'success');
             return redirect()->route('admin-dashboard');
         }
         toast('Username dan password tidak cocok', 'error');
