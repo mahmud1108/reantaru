@@ -1,5 +1,4 @@
 <footer class="footer-wrapper">
-
     <!-- footer widget area start -->
     <div class="footer-widget-area">
         <div class="container">
@@ -41,14 +40,13 @@
                             <div class="footer-widget-title">
                                 <h5>Kategori</h5>
                             </div>
-                            {{-- <ul class="footer-widget-body">
-                                <?php
-                                $m_kategori = mysqli_query($koneksi, 'SELECT * FROM kategori');
-                                while ($d_kategori = mysqli_fetch_assoc($m_kategori)) {
-                                    echo "<li><a href='kategori.php?q=$d_kategori[kategori_id]'>$d_kategori[kategori_nama]</a></li>";
-                                }
-                                ?>
-                            </ul> --}}
+                            <ul class="footer-widget-body">
+                                @foreach ($kategoris as $kategori)
+                                    <li><a
+                                            href='kategori.php?q=$d_kategori[kategori_id]'>{{ $kategori->kategori_nama }}</a>
+                                    </li>
+                                @endforeach
+                            </ul>
                         </div>
                     </div>
                     <!-- footer widget item end -->

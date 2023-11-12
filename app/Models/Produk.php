@@ -21,6 +21,11 @@ class Produk extends Model
             ->saveSlugsTo('produk_slug');
     }
 
+    public function galeri()
+    {
+        return $this->hasMany(Galeri::class);
+    }
+
     public function kategori()
     {
         return $this->belongsTo(Kategori::class);

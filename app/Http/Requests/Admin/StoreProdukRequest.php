@@ -26,7 +26,8 @@ class StoreProdukRequest extends FormRequest
             'produk_nama' => ['min:3', 'max:150'],
             'kategori_id' => ['required', 'integer'],
             'produk_harga' => ['integer', 'min:1'],
-            'produk_keterangan' => ['required']
+            'produk_keterangan' => ['required'],
+            'gambar.*' => ['required', 'image']
         ];
     }
 }

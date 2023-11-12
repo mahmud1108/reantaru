@@ -112,6 +112,10 @@
                             <label class="form-label">Produk Keterangan</label>
                             <textarea name="produk_keterangan" class="form-control summernote" required cols="30" rows="10"></textarea>
                         </div>
+                        <div class="mb-3">
+                            <label for="" class="form-label">Tambah Gambar</label>
+                            <input type="file" name="gambar[]" multiple class="form-control">
+                        </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

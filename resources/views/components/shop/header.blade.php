@@ -51,24 +51,23 @@
                         <div class="main-menu-area">
                             <div class="main-menu">
                                 <!-- main menu navbar start -->
-                                {{-- <nav class="desktop-menu">
+                                <nav class="desktop-menu">
                                     <ul>
-                                        <li class="active"><a href="index.php">Beranda</a></li>
+                                        <li class="active"><a href="{{ route('shop-index') }}">Beranda</a></li>
                                         <li>
-                                            <a href="kategori.php">Kategori <i class="fa fa-angle-down"></i></a>
+                                            <a href="">Kategori <i class="fa fa-angle-down"></i></a>
                                             <ul class="dropdown">
-                                                <?php
-                                                $m_kategori = mysqli_query($koneksi, 'SELECT * FROM kategori');
-                                                while ($d_kategori = mysqli_fetch_assoc($m_kategori)) {
-                                                    echo "<li><a href='kategori.php?q=$d_kategori[kategori_id]'>$d_kategori[kategori_nama]</a></li>";
-                                                }
-                                                ?>
+                                                @foreach ($kategoris as $kategori)
+                                                    <li><a
+                                                            href="{{ route('satu-kategori', ['slug' => $kategori->kategori_nama]) }}">{{ $kategori->kategori_nama }}</a>
+                                                    </li>
+                                                @endforeach
                                             </ul>
                                         </li>
                                         <li><a href="produk.php">Produk</a></li>
                                         <li><a href="tentang-kami.php">Tentang Kami</a></li>
                                     </ul>
-                                </nav> --}}
+                                </nav>
                                 <!-- main menu navbar end -->
                             </div>
                         </div>

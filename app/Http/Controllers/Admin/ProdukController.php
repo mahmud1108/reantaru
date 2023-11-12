@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helper\FileHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreProdukRequest;
 use App\Http\Requests\Admin\UpdateProdukRequest;
+use App\Models\Galeri;
 use App\Models\Kategori;
 use App\Models\Produk;
 use Carbon\Carbon;
@@ -60,6 +62,35 @@ class ProdukController extends Controller
         $date = Carbon::now();
         $datetime = $date->format('Y-m-d');
 
+        $jumlah = count($request->gambar);
+
+        if ($jumlah > 1) {
+            $produk = new Produk;
+            $produk->produk_nama = $request->produk_nama;
+            $produk->produk_harga = $request->produk_harga;
+            $produk->kategori_id = $request->kategori_id;
+            $produk->produk_keterangan = $request->produk_keterangan;
+            $produk->produk_tanggal = $date;
+            $produk->save();
+
+            $get_last = Produk::latest('created_at')->first();
+
+            for ($i = 0; $i < $jumlah; $i++) {
+                $gambar =  FileHelper::instance()->upload($request->gambar[$i], 'produk');
+
+                $galeri = new Galeri;
+                $galeri->galeri_file = $gambar;
+                $galeri->produk_id = $get_last->id;
+                $galeri->galeri_status = 'aktif';
+                $galeri->save();
+            }
+
+            toast("Berhasil menambahkan data baru", "success");
+            return redirect()->route('produk.index');
+        }
+
+        $gambar =  FileHelper::instance()->upload($request->gambar, 'produk');
+
         $produk = new Produk;
         $produk->produk_nama = $request->produk_nama;
         $produk->produk_harga = $request->produk_harga;
@@ -68,6 +99,14 @@ class ProdukController extends Controller
         $produk->produk_tanggal = $datetime;
         $produk->save();
 
+        $get_last = Produk::latest('created_at')->first();
+
+        $galeri = new Galeri;
+        $galeri->galeri_file = $gambar;
+        $galeri->produk_id = $get_last->id;
+        $galeri->galeri_status = "aktif";
+
+        toast("Berhasil menambahkan data baru", "success");
         return redirect()->route('produk.index');
     }
 
@@ -111,6 +150,16 @@ class ProdukController extends Controller
      */
     public function destroy(Produk $produk)
     {
+        $galeri = Galeri::where('produk_id', $produk->id)->get();
+        dd($galeri);
+        if (count($galeri) > 1) {
+            for ($i = 0; $i < count($galeri); $i++) {
+                FileHelper::instance()->delete($galeri->galeri_file);
+            }
+        } else {
+            FileHelper::instance()->delete($galeri->galeri_file);
+        }
+
         $produk->delete();
 
         toast('Produk berhasil dihapus', 'success');

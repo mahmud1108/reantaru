@@ -24,6 +24,7 @@ Route::view('admin/login', 'admin.login')->name('login-admin');
 Route::post('admin/login', [LoginAdminController::class, 'login'])->name('login-act');
 
 Route::get('/', [ShopController::class, 'index'])->name('shop-index');
+Route::get('/kategori/{slug}', [ShopController::class, 'satu_kategori'])->name('satu-kategori');
 
 Route::group([
     'middleware' => 'admin',
@@ -37,3 +38,6 @@ Route::group([
     Route::resource('varian', VarianController::class);
     Route::resource('atribut', AtributController::class);
 });
+
+
+// SHOP
