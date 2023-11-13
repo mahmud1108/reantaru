@@ -10,95 +10,31 @@
                 <div class="product-details-inner">
                     <div class="row">
                         <div class="col-lg-5 col-md-5">
-                            <div class="product-large-slider">
+                            <div class="product-large-slider" id="container_gambar">
                                 <div class="pro-large-img">
-                                    <img src="assets/img/product/product-details-img1.jpg" alt="product-details" />
-                                </div>
-                                <div class="pro-large-img">
-                                    <img src="assets/img/product/product-details-img2.jpg" alt="product-details" />
-                                </div>
-                                <div class="pro-large-img">
-                                    <img src="assets/img/product/product-details-img3.jpg" alt="product-details" />
-                                </div>
-                                <div class="pro-large-img">
-                                    <img src="assets/img/product/product-details-img4.jpg" alt="product-details" />
                                 </div>
                             </div>
                             <div class="pro-nav slick-row-10 slick-arrow-style">
-                                <div class="pro-nav-thumb">
+                                <div class="pro-nav-thumb" id="container_gambar_list">
                                     <img src="assets/img/product/product-details-img1.jpg" alt="product-details" />
-                                </div>
-                                <div class="pro-nav-thumb">
-                                    <img src="assets/img/product/product-details-img2.jpg" alt="product-details" />
-                                </div>
-                                <div class="pro-nav-thumb">
-                                    <img src="assets/img/product/product-details-img3.jpg" alt="product-details" />
-                                </div>
-                                <div class="pro-nav-thumb">
-                                    <img src="assets/img/product/product-details-img4.jpg" alt="product-details" />
-                                </div>
-                                <div class="pro-nav-thumb">
-                                    <img src="assets/img/product/product-details-img4.jpg" alt="product-details" />
-                                </div>
-                                <div class="pro-nav-thumb">
-                                    <img src="assets/img/product/product-details-img4.jpg" alt="product-details" />
-                                </div>
-                                <div class="pro-nav-thumb">
-                                    <img src="assets/img/product/product-details-img4.jpg" alt="product-details" />
-                                </div>
-                                <div class="pro-nav-thumb">
-                                    <img src="assets/img/product/product-details-img4.jpg" alt="product-details" />
-                                </div>
-                                <div class="pro-nav-thumb">
-                                    <img src="assets/img/product/product-details-img4.jpg" alt="product-details" />
-                                </div>
-                                <div class="pro-nav-thumb">
-                                    <img src="assets/img/product/product-details-img4.jpg" alt="product-details" />
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-7 col-md-7">
                             <div class="product-details-des quick-details">
-                                <h3 class="product-name">Orchid flower white stick</h3>
+                                <h3 class="product-name" id="produk_nama"></h3>
                                 <div class="price-box">
-                                    <span class="price-regular">$70.00</span>
-                                    <span class="price-old"><del>$90.00</del></span>
-                                </div>
-                                <h5 class="offer-text"><strong>Hurry up</strong>! offer ends in:</h5>
-                                <div class="product-countdown" data-countdown="2023/04/25"></div>
-                                <div class="availability">
-                                    <i class="fa fa-check-circle"></i>
-                                    <span>200 in Baju Category</span>
+                                    <span class="price-regular" id="produk_harga"></span>
                                 </div>
                                 <div class="availability">
                                     <i class="fa fa-check-circle"></i>
-                                    <span>200 Gram</span>
+                                    <span id='produk_kategori'></span>
                                 </div>
-                                <p class="pro-desc">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-                                    nonumy
-                                    eirmod tempor invidunt ut labore et dolore magna aliquyam erat.Lorem ipsum dolor sit
-                                    amet, consetetur sadipscing elitr, sed diam nonumy
-                                    eirmod tempor invidunt ut labore et dolore magna aliquyam erat.Lorem ipsum dolor sit
-                                    amet, consetetur sadipscing elitr, sed diam nonumy
-                                    eirmod tempor invidunt ut labore et dolore magna aliquyam erat.Lorem ipsum dolor sit
-                                    amet, consetetur sadipscing elitr, sed diam nonumy
-                                    eirmod tempor invidunt ut labore et dolore magna aliquyam erat.Lorem ipsum dolor sit
-                                    amet, consetetur sadipscing elitr, sed diam nonumy
-                                    eirmod tempor invidunt ut labore et dolore magna aliquyam erat.</p>
+                                <span class="pro-desk" id="produk_keterangan"></span>
                                 <div class="quantity-cart-box d-flex align-items-center">
-                                    <h5>qty:</h5>
-                                    <div class="quantity">
-                                        <div class="pro-qty"><input type="text" value="1"></div>
-                                    </div>
                                     <div class="action_link">
-                                        <a class="btn btn-cart2" href="#">Add to cart</a>
+                                        <a class="btn btn-cart2" href="#">Beli</a>
                                     </div>
-                                </div>
-                                <div class="like-icon">
-                                    <a class="facebook" href="#"><i class="fa fa-facebook"></i>like</a>
-                                    <a class="twitter" href="#"><i class="fa fa-twitter"></i>tweet</a>
-                                    <a class="pinterest" href="#"><i class="fa fa-pinterest"></i>save</a>
-                                    <a class="google" href="#"><i class="fa fa-google-plus"></i>share</a>
                                 </div>
                             </div>
                         </div>

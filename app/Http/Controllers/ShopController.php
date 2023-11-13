@@ -19,7 +19,7 @@ class ShopController extends Controller
             $galeris = [];
             foreach ($produk->galeri as $galeri) {
                 if ($galeri->galeri_status == 'aktif') {
-                    $galeris[0] =
+                    $galeris[] =
                         [
                             'galeri_id' => $galeri->id,
                             'galeri_file' => $galeri->galeri_file,
@@ -33,9 +33,12 @@ class ShopController extends Controller
                     'produk_slug' => $produk->produk_slug,
                     'produk_harga' => $produk->produk_harga,
                     'produk_kategori' => $produk->kategori->kategori_nama,
+                    'produk_keterangan' => $produk->produk_keterangan,
                     'galeri' => $galeris
                 ];
         }
+
+        // return response()->json($data_produk);
         return view(
             'shop.index',
             compact(

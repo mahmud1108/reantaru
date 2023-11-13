@@ -137,8 +137,14 @@
                                     </div>
                                 </div>
                                 <div class="button-group">
-                                    <a href="#" data-toggle="modal"
-                                        data-target="#quick_view{{ $data_produk[$i]['produk_slug'] }}"><span
+                                    <a href="#" data-toggle="modal" id="quick_view_btn" data-target="#quick_view"
+                                        data-produk_nama="{{ $data_produk[$i]['produk_nama'] }}"
+                                        data-produk_harga="{{ $data_produk[$i]['produk_harga'] }}"
+                                        data-produk_kategori="{{ $data_produk[$i]['produk_kategori'] }}"
+                                        data-produk_keterangan="{{ $data_produk[$i]['produk_keterangan'] }}"
+                                        data-jumlah_galeri="{{ count($data_produk[$i]['galeri']) }}"
+                                        @for ($j = 0; $j < count($data_produk[$i]['galeri']) ; $j++) 
+                                        data-galeri{{ $j }}="{{ $data_produk[$i]['galeri'][$j]['galeri_file'] }}" @endfor><span
                                             data-toggle="tooltip" data-placement="left" title="Lihat"><i
                                                 class="lnr lnr-magnifier"></i></span></a>
                                     <a href="cart_tambah.php" data-toggle="tooltip" data-placement="left"
@@ -157,67 +163,8 @@
                             </div>
                         </div>
                     </div>
-                    {{-- <div class="modal" id="quick_view{{ $data_produk[$i]['produk_slug'] }}">
-                        <div class="modal-dialog modal-lg modal-dialog-centered">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                </div>
-                                <div class="modal-body">
-                                    <!-- product details inner end -->
-                                    <div class="product-details-inner">
-                                        <div class="row">
-                                            <div class="col-lg-5 col-md-5">
-                                                <div class="product-large-slider">
-                                                    <?php
-                                                    $galeri = mysqli_query($koneksi, "SELECT * FROM galeri g where g.galeri_produk='$tdaftar_pro[produk_galeri]' ORDER BY galeri_status ASC");
-                                                    while ($dgaleri = mysqli_fetch_assoc($galeri)) {
-                                                        echo "
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <div class='pro-large-img img-zoom'>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <img src='gambar/produk/$dgaleri[galeri_nama]' alt='product-details' />
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </div>";
-                                                    } ?>
-                                                </div>
-                                                <div class="pro-nav slick-row-10 slick-arrow-style">
-                                                    <?php
-                                                    $galeri = mysqli_query($koneksi, "SELECT * FROM galeri g where g.galeri_produk='$tdaftar_pro[produk_galeri]' ORDER BY galeri_status ASC");
-                                                    while ($dgaleri = mysqli_fetch_assoc($galeri)) {
-                                                        echo "
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <div class='pro-nav-thumb'>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <img src='gambar/produk/$dgaleri[galeri_nama]' alt='product-details' />
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </div>";
-                                                    } ?>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-7 col-md-7">
-                                                <div class="product-details-des quick-details">
-                                                    <h3 class="product-name"><?= $tdaftar_pro['produk_nama'] ?></h3>
-                                                    <div class="price-box">
-                                                        <span
-                                                            class="price-regular"><?= rupiah($tdaftar_pro['produk_harga']) ?></span>
-                                                    </div>
-                                                    <br>
-                                                    <div class="availability">
-                                                        <i class="fa fa-check-circle"></i>
-                                                        <span><?= $tdaftar_pro['kategori_nama'] ?></span>
-                                                    </div>
-                                                    <p class="pro-desc"><?= $tdaftar_pro['produk_keterangan'] ?></p>
-                                                    <div class="quantity-cart-box d-flex align-items-center">
-                                                        <div class="action_link">
-                                                            <a class="btn btn-cart2"
-                                                                href="detail_produk.php?slug=<?= $tdaftar_pro['produk_slug'] ?>">Beli
-                                                                Produk</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> <!-- product details inner end -->
-                                </div>
-                            </div>
-                        </div>
-                    </div> --}}
                 @endfor
+
                 <div class="col-12">
                     <div class="view-more-btn">
                         <a class="btn-hero btn-load-more" href="produk.php">Lihat semua produk</a>
@@ -287,4 +234,42 @@
             </div>
         </div>
     </section>
+@endsection
+
+@section('javascript')
+    <script>
+        $(document).ready(function() {
+            $(document).on('click', '#quick_view_btn', function() {
+                let produk_nama = $(this).data('produk_nama')
+                let produk_harga = $(this).data('produk_harga')
+                let produk_keterangan = $(this).data('produk_keterangan')
+                let produk_kategori = $(this).data('produk_kategori')
+                let jumlah_galeri = $(this).data('jumlah_galeri')
+                let out_container = document.getElementById('container_gambar')
+
+                for (let i = 0; i < jumlah_galeri; i++) {
+                    let galeri = $(this).data('galeri' + i)
+
+                    let img_container = document.createElement('div')
+                    img_container.classList.add('pro-large-img')
+
+                    let img = document.createElement('img')
+                    img.src = galeri
+                    img.alt = "Produk Detail"
+                    img_container.appendChild(img)
+                    console.log(img_container);
+                }
+
+                let rupiah = new Intl.NumberFormat('id-ID', {
+                    style: 'currency',
+                    currency: 'IDR'
+                }).format(produk_harga);
+
+                $('#produk_nama').html(produk_nama)
+                $('#produk_harga').html(rupiah)
+                $('#produk_kategori').html(produk_kategori)
+                $('#produk_keterangan').html(produk_keterangan)
+            });
+        });
+    </script>
 @endsection

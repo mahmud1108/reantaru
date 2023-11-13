@@ -19,6 +19,8 @@
     <link href="assets/css/vendor.css" rel="stylesheet">
     <!-- Main Style CSS -->
     <link href="assets/css/style.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+        crossorigin="anonymous"></script>
 
 </head>
 
@@ -44,9 +46,11 @@
     <div class="scroll-top not-visible">
         <i class="fa fa-angle-up"></i>
     </div>
-    <!-- Scroll to Top End -->
-    <!-- All vendor & plugins & active js include here -->
-    <!--All Vendor Js -->
+
+    @yield('javascript')
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
     <script src="assets/js/vendor.js"></script>
     <!-- Active Js -->
     <script src="assets/js/active.js"></script>
