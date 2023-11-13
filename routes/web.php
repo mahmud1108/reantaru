@@ -41,9 +41,12 @@ Route::group([
 Route::get('/', [ShopController::class, 'index'])->name('shop-index');
 Route::get('/kategori/{slug}', [ShopController::class, 'satu_kategori'])->name('satu-kategori');
 
+Route::get('/login', [ShopController::class, 'login_form'])->name('login_register_customer');
+Route::post('/register_act', [ShopController::class, 'register_act'])->name('register_act_customer');
+
 
 Route::group([
     'middleware' => 'customer'
 ], function () {
-    route::resource('cart', )
+    route::resource('cart', CartController::class);
 });

@@ -21,11 +21,9 @@
     <link href="assets/css/style.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
         crossorigin="anonymous"></script>
-
 </head>
 
 <body>
-
     <!-- Start Header Area -->
     @include('components.shop.header')
     <!-- end Header Area -->

@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Customer\RegisterRequest;
+use App\Models\Customer;
 use App\Models\Kategori;
 use App\Models\Produk;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class ShopController extends Controller
 {
@@ -51,5 +55,27 @@ class ShopController extends Controller
     public function satu_kategori($slug)
     {
         $kategori = Kategori::where('kategori_nama', $slug)->first();
+    }
+
+    public function login_form()
+    {
+        $kategoris = Kategori::all();
+        return view(
+            'shop.login_register',
+            compact('kategoris')
+        );
+    }
+
+    public function register_act(RegisterRequest $request)
+    {
+        $customer = new Customer;
+        $customer->customer_nama = $request->nama;
+        $customer->email = $request->email;
+        $customer->password = Hash::make($request->password);
+        $customer->save();
+
+        session()->flash('text', 'Berhasil registrasi');
+        session()->flash('type', 'success');
+        return redirect()->back();
     }
 }

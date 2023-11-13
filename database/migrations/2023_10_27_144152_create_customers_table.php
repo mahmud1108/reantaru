@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('customer_nama', 30);
             $table->string('email', 30);
-            $table->string('password', 30);
-            $table->string('customer_hp', 15);
-            $table->string('customer_alamat', 30);
-            $table->string('customer_foto', 150);
+            $table->string('password', 150);
+            $table->string('customer_hp', 15)->nullable();
+            $table->string('customer_alamat', 30)->nullable();
+            $table->string('customer_foto', 150)->nullable();
             $table->timestamps();
         });
     }

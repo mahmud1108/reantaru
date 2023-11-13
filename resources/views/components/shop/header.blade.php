@@ -16,13 +16,16 @@
                                 <li class="contact us">
                                     <span><a href="kontak-kami.php">Kontak Kami</a></span>
                                 </li>
-                                <li class="curreny-wrap">
-                                    <?php if (isset($_SESSION['masuk'])) { ?>
-                                    <span><a href="logout.php">Logout</a></span>
-                                    <?php } else { ?>
-                                    <span><a href="login-register.php">Daftar Akun</a></span>
-                                    <?php } ?>
-                                </li>
+                                @if (auth()->user())
+                                    <li class="curreny-wrap">
+                                        <span><a href="logout.php">Logout</a></span>
+                                        {{-- <span><a href="{{ route('login_register_customer') }}">Daftar Akun</a></span> --}}
+                                    </li>
+                                @else
+                                    <li class="curreny-wrap">
+                                        <span><a href="{{ route('login_register_customer') }}">Daftar Akun</a></span>
+                                    </li>
+                                @endif
                             </ul>
                         </div>
                     </div>
@@ -53,7 +56,7 @@
                                 <!-- main menu navbar start -->
                                 <nav class="desktop-menu">
                                     <ul>
-                                        <li class="active"><a href="{{ route('shop-index') }}">Beranda</a></li>
+                                        <li class=""><a href="{{ route('shop-index') }}">Beranda</a></li>
                                         <li>
                                             <a href="">Kategori <i class="fa fa-angle-down"></i></a>
                                             <ul class="dropdown">
