@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Customer;
 
-use App\Http\Requests\Customer\RegisterRequest;
-use App\Models\Customer;
+use App\Http\Controllers\Controller;
 use App\Models\Kategori;
 use App\Models\Produk;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 
-class ShopController extends Controller
+class KategoriController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
         $kategoris = Kategori::all();
@@ -42,9 +42,8 @@ class ShopController extends Controller
                 ];
         }
 
-        // return response()->json($data_produk);
         return view(
-            'shop.index',
+            'shop.all_kategori',
             compact(
                 'kategoris',
                 'data_produk'
@@ -52,41 +51,51 @@ class ShopController extends Controller
         );
     }
 
-    public function satu_kategori($slug)
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
     {
+        //
     }
 
-    public function login_form()
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
     {
-        $kategoris = Kategori::all();
-        return view(
-            'shop.login_register',
-            compact('kategoris')
-        );
+        //
     }
 
-    public function register_act(RegisterRequest $request)
+    /**
+     * Display the specified resource.
+     */
+    public function show(Kategori $kategori)
     {
-        $customer = new Customer;
-        $customer->customer_nama = $request->nama;
-        $customer->email = $request->email;
-        $customer->password = Hash::make($request->password);
-        $customer->save();
-
-        session()->flash('text', 'Berhasil registrasi');
-        session()->flash('type', 'success');
-        return redirect()->back();
+        //
     }
 
-    public function login_act(Request $request)
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Kategori $kategori)
     {
-        $creds = $request->validate([
-            'email' => 'required|email:dns',
-            'password' => 'required'
-        ]);
-        dd(Auth::guard('customer')->attempt($creds));
+        //
+    }
 
-        if (Auth::guard('customer')->attempt($creds) === true) {
-        }
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Kategori $kategori)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Kategori $kategori)
+    {
+        //
     }
 }

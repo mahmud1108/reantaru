@@ -137,17 +137,10 @@
                                     </div>
                                 </div>
                                 <div class="button-group">
-                                    <a href="#" data-toggle="modal" id="quick_view_btn" data-target="#quick_view"
-                                        data-produk_nama="{{ $data_produk[$i]['produk_nama'] }}"
-                                        data-produk_harga="{{ $data_produk[$i]['produk_harga'] }}"
-                                        data-produk_kategori="{{ $data_produk[$i]['produk_kategori'] }}"
-                                        data-produk_keterangan="{{ $data_produk[$i]['produk_keterangan'] }}"
-                                        data-jumlah_galeri="{{ count($data_produk[$i]['galeri']) }}"
-                                        @for ($j = 0; $j < count($data_produk[$i]['galeri']) ; $j++) 
-                                        data-galeri{{ $j }}="{{ $data_produk[$i]['galeri'][$j]['galeri_file'] }}" @endfor><span
+                                    <a href="#" data-toggle="modal" data-target="#quick_view{{ $i }}"><span
                                             data-toggle="tooltip" data-placement="left" title="Lihat"><i
                                                 class="lnr lnr-magnifier"></i></span></a>
-                                    <a href="cart_tambah.php" data-toggle="tooltip" data-placement="left"
+                                    <a href="{{ route('cart.store') }}" data-toggle="tooltip" data-placement="left"
                                         title="Masukkan ke Keranjang"><i class="lnr lnr-cart"></i></a>
                                 </div>
                             </figure>
@@ -163,6 +156,65 @@
                             </div>
                         </div>
                     </div>
+
+
+                    <div class="modal" id="quick_view{{ $i }}">
+                        <div class="modal-dialog modal-lg modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- product details inner end -->
+                                    <div class="product-details-inner">
+                                        <div class="row">
+                                            <div class="col-lg-5 col-md-5">
+                                                <div class="product-large-slider">
+
+                                                    @for ($j = 0; $j < count($data_produk[$i]['galeri']); $j++)
+                                                        <div class="pro-large-img img-zoom">
+                                                            <img src="{{ $data_produk[$i]['galeri'][$j]['galeri_file'] }}"
+                                                                alt="product-details" />
+                                                        </div>
+                                                    @endfor
+                                                </div>
+                                                <div class="pro-nav slick-row-10 slick-arrow-style">
+                                                    @for ($j = 0; $j < count($data_produk[$i]['galeri']); $j++)
+                                                        <div class="pro-nav-thumb">
+                                                            <img src="{{ $data_produk[$i]['galeri'][$j]['galeri_file'] }}"
+                                                                alt="product-details" />
+                                                        </div>
+                                                    @endfor
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-7 col-md-7">
+                                                <div class="product-details-des quick-details">
+                                                    <h3 class="product-name" id="produk_nama">
+                                                        {{ $data_produk[$i]['produk_nama'] }} </h3>
+                                                    <div class="price-box">
+                                                        <span class="price-regular" id="produk_harga">Rp.
+                                                            {{ number_format($data_produk[$i]['produk_harga'], 0, ',', '.') }}</span>
+                                                    </div>
+                                                    <div class="availability">
+                                                        <i class="fa fa-check-circle"></i>
+                                                        <span
+                                                            id='produk_kategori'>{{ $data_produk[$i]['produk_kategori'] }}</span>
+                                                    </div>
+                                                    <span class="pro-desk"
+                                                        id="produk_keterangan">{!! $data_produk[$i]['produk_keterangan'] !!}</span>
+                                                    <div class="quantity-cart-box d-flex align-items-center">
+                                                        <div class="action_link">
+                                                            <a class="btn btn-cart2" href="#">Beli</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> <!-- product details inner end -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 @endfor
 
                 <div class="col-12">
@@ -174,102 +226,4 @@
         </div>
     </section>
 
-    <section class="top-sellers">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="section-title text-center">
-                        <h2>Produk yang mungkin anda sukai</h2>
-                        <p>Beberapa produk ini mungkin anda menyukainya.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-
-                    @for ($i = 0; $i < count($data_produk); $i++)
-                        <div class="product-carousel--4 slick-row-15 slick-sm-row-10 slick-arrow-style">
-                            <div class="product-item">
-                                <figure class="product-thumb">
-                                    <a href="detail_produk.php?slug=produk_slug">
-                                        <div class="wadah-gambar"
-                                            style="width: 270px;height: 270px;display: flex;justify-content: center;align-items: center;overflow: hidden;">
-                                            <img class="pri-img"
-                                                style="max-width: 100%;max-height: 100%;object-fit: contain;"
-                                                src="{{ $data_produk[$i]['galeri'][0]['galeri_file'] }}" alt="product">
-                                            <img class="sec-img"
-                                                style="max-width: 100%;max-height: 100%;object-fit: contain;"
-                                                src="{{ $data_produk[$i]['galeri'][0]['galeri_file'] }}" alt="product">
-                                        </div>
-                                    </a>
-                                    <div class="product-badge">
-                                        <div class="product-label new">
-                                            <span>{{ $data_produk[$i]['produk_nama'] }}</span>
-                                        </div>
-                                    </div>
-                                    <div class="button-group">
-                                        <a href="#" data-toggle="modal"
-                                            data-target="#quick_view{{ $data_produk[$i]['produk_slug'] }}"><span
-                                                data-toggle="tooltip" data-placement="left" title="Lihat"><i
-                                                    class="lnr lnr-magnifier"></i></span></a>
-                                        <a href="cart_tambah.php" data-toggle="tooltip" data-placement="left"
-                                            title="Masukkan ke Keranjang"><i class="lnr lnr-cart"></i></a>
-                                    </div>
-                                </figure>
-                                <div class="product-caption">
-                                    <p class="product-name">
-                                        <a
-                                            href="detail_produk.php?slug={{ $data_produk[$i]['produk_slug'] }}">{{ $data_produk[$i]['produk_nama'] }}</a>
-                                    </p>
-                                    <div class="price-box">
-                                        <span class="price-regular">Rp.
-                                            {{ number_format($data_produk[$i]['produk_harga'], 0, ',', '.') }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endfor
-
-                </div>
-            </div>
-        </div>
-    </section>
-@endsection
-
-@section('javascript')
-    <script>
-        $(document).ready(function() {
-            $(document).on('click', '#quick_view_btn', function() {
-                let produk_nama = $(this).data('produk_nama')
-                let produk_harga = $(this).data('produk_harga')
-                let produk_keterangan = $(this).data('produk_keterangan')
-                let produk_kategori = $(this).data('produk_kategori')
-                let jumlah_galeri = $(this).data('jumlah_galeri')
-                let out_container = document.getElementById('container_gambar')
-
-                for (let i = 0; i < jumlah_galeri; i++) {
-                    let galeri = $(this).data('galeri' + i)
-
-                    let img_container = document.createElement('div')
-                    img_container.classList.add('pro-large-img')
-
-                    let img = document.createElement('img')
-                    img.src = galeri
-                    img.alt = "Produk Detail"
-                    img_container.appendChild(img)
-                    console.log(img_container);
-                }
-
-                let rupiah = new Intl.NumberFormat('id-ID', {
-                    style: 'currency',
-                    currency: 'IDR'
-                }).format(produk_harga);
-
-                $('#produk_nama').html(produk_nama)
-                $('#produk_harga').html(rupiah)
-                $('#produk_kategori').html(produk_kategori)
-                $('#produk_keterangan').html(produk_keterangan)
-            });
-        });
-    </script>
 @endsection

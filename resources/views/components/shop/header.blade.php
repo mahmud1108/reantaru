@@ -58,7 +58,8 @@
                                     <ul>
                                         <li class=""><a href="{{ route('shop-index') }}">Beranda</a></li>
                                         <li>
-                                            <a href="">Kategori <i class="fa fa-angle-down"></i></a>
+                                            <a href="{{ route('shopKategori.index') }}">Kategori <i
+                                                    class="fa fa-angle-down"></i></a>
                                             <ul class="dropdown">
                                                 @foreach ($kategoris as $kategori)
                                                     <li><a

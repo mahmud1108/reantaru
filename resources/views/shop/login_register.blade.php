@@ -46,7 +46,8 @@
 
                         <div class="login-reg-form-wrap">
                             <h2>Sign In</h2>
-                            <form action="" method="post">
+                            <form action="{{ route('login_act_customer') }}" method="get">
+                                @csrf
                                 <div class="single-input-item">
                                     <input name="email" type="email" placeholder="Email" required />
                                 </div>
