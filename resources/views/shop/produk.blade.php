@@ -41,16 +41,8 @@
                                 </ul>
                             </div>
                         </div>
-                        <!-- single sidebar end -->
 
-                        <div class="blog-sidebar">
-                            <div class="sidebar-serch-form">
-                                <form method="get" action="produk.php">
-                                    <input type="text" name="s" class="search-field" placeholder="Cari produk">
-                                    <button type="submit" class="search-btn"><i class="fa fa-search"></i></button>
-                                </form>
-                            </div>
-                        </div> <!-- single sidebar end -->
+                        @include('components.shop.search') 
                     </aside>
                 </div>
                 <!-- sidebar area end -->

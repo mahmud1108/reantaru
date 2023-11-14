@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
@@ -11,6 +12,7 @@ class Produk extends Model
 {
     use HasSlug;
     use HasFactory;
+    use Searchable;
 
     protected $guarded = 'id';
 

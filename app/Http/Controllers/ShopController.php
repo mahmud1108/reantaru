@@ -218,4 +218,45 @@ class ShopController extends Controller
             compact('kategoris')
         );
     }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+        $produks = Produk::search($query)->get();
+
+        $kategoris = Kategori::all();
+
+        $data_produk = [];
+        foreach ($produks as $produk) {
+            $galeris = [];
+            foreach ($produk->galeri as $galeri) {
+                if ($galeri->galeri_status == 'aktif') {
+                    $galeris[] =
+                        [
+                            'galeri_id' => $galeri->id,
+                            'galeri_file' => $galeri->galeri_file,
+                            'galeri_status' => $galeri->galeri_status
+                        ];
+                }
+            }
+            $data_produk[] =
+                [
+                    'produk_nama' => $produk->produk_nama,
+                    'produk_slug' => $produk->produk_slug,
+                    'produk_harga' => $produk->produk_harga,
+                    'produk_kategori' => $produk->kategori->kategori_nama,
+                    'produk_keterangan' => $produk->produk_keterangan,
+                    'galeri' => $galeris
+                ];
+        }
+
+        return view(
+            'shop.search',
+            compact(
+                'kategoris',
+                'data_produk',
+                'query'
+            )
+        );
+    }
 }

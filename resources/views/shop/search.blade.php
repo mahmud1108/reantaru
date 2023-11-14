@@ -7,11 +7,11 @@
                 <div class="col-12">
                     <div class="breadcrumb-wrap">
                         <nav aria-label="breadcrumb">
-                            <h1>Semua Kategori</h1>
+                            <h1>Hasil Pencarian {{ $query }}</h1>
                             <ul class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{ route('shop-index') }}"><i class="fa fa-home"></i></a>
                                 </li>
-                                <li class="breadcrumb-item active" aria-current="page">Semua Kategori</li>
+                                <li class="breadcrumb-item active" aria-current="page">Hasil Pencarian</li>
                             </ul>
                         </nav>
                     </div>
