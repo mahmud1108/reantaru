@@ -29,6 +29,15 @@
                     <!-- Login Content Start -->
                     <div class="col-lg-6">
 
+                        @if (session('text'))
+                            <div class="alert alert-{{ session('type') }} alert-dismissible fade show" role="alert">
+                                <strong>{{ session('text') }}</strong>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        @endif
+
                         @if ($errors->any())
                             <div class="mb-4">
                                 <ul class="list-disc text-red-500 text-sm">

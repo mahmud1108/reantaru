@@ -17,7 +17,6 @@ class AdminMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         $user = auth()->user();
-        // dd($user);
         if (
             auth()->check() &&
             in_array($user->role, ['admin', 'super admin']) &&
@@ -27,7 +26,6 @@ class AdminMiddleware
                 toast('Akun anda tidak aktif', 'error');
                 return redirect()->route('login-admin');
             }
-            // toast('Berhasil login sebagai ' . auth()->user()->role, 'success');
             return $next($request);
         }
 

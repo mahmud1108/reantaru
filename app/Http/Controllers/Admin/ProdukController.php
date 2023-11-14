@@ -88,8 +88,7 @@ class ProdukController extends Controller
             toast("Berhasil menambahkan data baru", "success");
             return redirect()->route('produk.index');
         }
-
-        $gambar =  FileHelper::instance()->upload($request->gambar, 'produk');
+        $gambar =  FileHelper::instance()->upload($request->gambar[0], 'produk');
 
         $produk = new Produk;
         $produk->produk_nama = $request->produk_nama;
@@ -105,6 +104,7 @@ class ProdukController extends Controller
         $galeri->galeri_file = $gambar;
         $galeri->produk_id = $get_last->id;
         $galeri->galeri_status = "aktif";
+        $galeri->save();
 
         toast("Berhasil menambahkan data baru", "success");
         return redirect()->route('produk.index');
@@ -150,13 +150,13 @@ class ProdukController extends Controller
      */
     public function destroy(Produk $produk)
     {
-        $galeri = Galeri::where('produk_id', $produk->id)->get();
-        dd($galeri);
-        if (count($galeri) > 1) {
-            for ($i = 0; $i < count($galeri); $i++) {
+        $galeris = Galeri::where('produk_id', $produk->id)->get();
+        if (count($galeris) > 1) {
+            foreach ($galeris as $galeri) {
                 FileHelper::instance()->delete($galeri->galeri_file);
             }
         } else {
+            $galeri = Galeri::where('produk_id', $produk->id)->first();
             FileHelper::instance()->delete($galeri->galeri_file);
         }
 

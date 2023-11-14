@@ -23,7 +23,7 @@ class StoreKategoriRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nama_kategori' => ['required', 'min:3', 'max:150'],
+            'kategori_nama' => ['required', 'min:3', 'max:150', 'unique:kategoris'],
             'gambar_kategori' => ['required', 'image', 'mimes:jpeg,png,jpg,gif', 'max:10000']
         ];
     }

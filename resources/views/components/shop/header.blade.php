@@ -58,8 +58,8 @@
                                     <ul>
                                         <li class="{{ request()->is('/') ? 'active' : '' }}"><a
                                                 href="{{ route('shop-index') }}">Beranda</a></li>
-                                        <li class="{{ request()->is('shopKategori') ? 'active' : '' }}">
-                                            <a href="{{ route('shopKategori.index') }}">Kategori <i
+                                        <li class="{{ request()->is('/kategori') ? 'active' : '' }}">
+                                            <a href="{{ route('all_kategori') }}">Kategori <i
                                                     class="fa fa-angle-down"></i></a>
                                             <ul class="dropdown">
                                                 @foreach ($kategoris as $kategori)
@@ -72,7 +72,8 @@
                                         </li>
                                         <li class="{{ request()->is('produk') ? 'active' : '' }}"><a
                                                 href="{{ route('produk') }}">Produk</a></li>
-                                        <li><a href="tentang-kami.php">Tentang Kami</a></li>
+                                        <li class="{{ request()->is('tentang') ? 'active' : '' }}"><a
+                                                href="{{ route('tentang') }}">Tentang Kami</a></li>
                                     </ul>
                                 </nav>
                                 <!-- main menu navbar end -->

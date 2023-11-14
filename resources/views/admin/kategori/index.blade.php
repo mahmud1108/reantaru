@@ -19,7 +19,6 @@
         @foreach ($errors->all() as $error)
             <div class="alert alert-warning alert-dismissible fade show" role="alert">
                 {{ $error }}
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
         @endforeach
     @endif
@@ -75,7 +74,7 @@
                         @csrf
                         <div class="mb-3">
                             <label class="form-label">Nama Kategori</label>
-                            <input type="text" name="nama_kategori" autocomplete="off" placeholder="Nama Kategori"
+                            <input type="text" name="kategori_nama" autocomplete="off" placeholder="Nama Kategori"
                                 class="form-control">
                         </div>
                         <div class="mb-3">
@@ -106,7 +105,7 @@
                         @csrf
                         <div class="mb-3">
                             <label class="form-label">Nama Kategori</label>
-                            <input type="text" name="nama_kategori" placeholder="Nama Kategori" id="kategori_nama_ubah"
+                            <input type="text" name="kategori_nama" placeholder="Nama Kategori" id="kategori_nama_ubah"
                                 class="form-control">
                         </div>
                         <div class="mb-3">

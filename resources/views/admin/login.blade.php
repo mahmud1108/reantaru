@@ -40,8 +40,8 @@
                         </div>
                         <div class="mb-3 text-start">
                             <div class="form-check">
-                                <input class="form-check-input" name="remember" type="checkbox" value=""
-                                    id="check1">
+                                <input class="form-check-input" name="remember" type="checkbox"
+                                    value="{{ old('remember') ? '' : '' }}" id="check1">
                                 <label class="form-check-label" for="check1">
                                     Remember me on this device
                                 </label>

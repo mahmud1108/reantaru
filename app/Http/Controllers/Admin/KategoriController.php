@@ -44,7 +44,7 @@ class KategoriController extends Controller
         $image = FileHelper::instance()->upload($request->gambar_kategori, 'kategori');
 
         $kategori = new Kategori;
-        $kategori->kategori_nama = $request->nama_kategori;
+        $kategori->kategori_nama = $request->kategori_nama;
         $kategori->kategori_gambar = $image;
         $kategori->save();
 

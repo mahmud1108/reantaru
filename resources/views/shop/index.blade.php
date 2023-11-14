@@ -79,7 +79,7 @@
                             <!-- product single item start -->
                             <div class="product-item">
                                 <figure class="product-thumb">
-                                    <a href="">
+                                    <a href="{{ route('satu-kategori', $kategori->kategori_nama) }}">
                                         <img class="pri-img" src="{{ asset($kategori->kategori_gambar) }}" alt="product">
                                         <img class="sec-img" src="{{ asset($kategori->kategori_gambar) }}" alt="product">
                                     </a>
@@ -95,7 +95,8 @@
                                 </figure>
                                 <div class="product-caption">
                                     <p class="product-name">
-                                        <a href="">{{ $kategori->kategori_nama }}</a>
+                                        <a
+                                            href="{{ route('satu-kategori', $kategori->kategori_nama) }}">{{ $kategori->kategori_nama }}</a>
                                     </p>
                                 </div>
                             </div>

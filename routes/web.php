@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('admin/login', 'admin.login')->name('login-admin');
+Route::view('admin/', 'admin.login')->name('login-admin');
 Route::post('admin/login', [LoginAdminController::class, 'login'])->name('login-act');
 
 
@@ -46,8 +46,9 @@ Route::get('/login', [ShopController::class, 'login_form'])->name('login_registe
 Route::post('/register_act', [ShopController::class, 'register_act'])->name('register_act_customer');
 Route::get('/login_act', [ShopController::class, 'login_act'])->name('login_act_customer');
 Route::get('/produk', [ShopController::class, 'produk'])->name('produk');
+Route::get('/kategori', [ShopController::class, 'all_kategori'])->name('all_kategori');
+Route::get('/tentang', [ShopController::class, 'tentang'])->name('tentang');
 
-Route::resource('shopKategori', App\Http\Controllers\Customer\KategoriController::class);
 
 Route::group([
     'middleware' => 'customer'

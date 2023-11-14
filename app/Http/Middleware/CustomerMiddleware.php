@@ -20,6 +20,8 @@ class CustomerMiddleware
             return $next($request);
         }
 
+        session()->flash('text', 'Login terlebih dahulu');
+        session()->flash('type', 'danger');
         return redirect()->route('login_register_customer');
     }
 }
