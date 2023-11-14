@@ -16,9 +16,9 @@
         rel="stylesheet">
 
     <!-- All Vendor & plugins CSS include -->
-    <link href="assets/css/vendor.css" rel="stylesheet">
+    <link href="{{ asset('assets/css/vendor.css') }}" rel="stylesheet">
     <!-- Main Style CSS -->
-    <link href="assets/css/style.css" rel="stylesheet">
+    <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
         crossorigin="anonymous"></script>
 </head>
@@ -49,9 +49,9 @@
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
-    <script src="assets/js/vendor.js"></script>
+    <script src="{{ asset('assets/js/vendor.js') }}"></script>
     <!-- Active Js -->
-    <script src="assets/js/active.js"></script>
+    <script src="{{ asset('assets/js/active.js') }}"></script>
 </body>
 
 </html>

@@ -54,6 +54,47 @@ class ShopController extends Controller
 
     public function satu_kategori($slug)
     {
+        $kategoris = Kategori::all();
+
+        $kategori = Kategori::where('kategori_nama', $slug)->first();
+
+        if ($kategori === null) {
+            return view('shop.satu_kategori', compact(
+                'kategoris',
+                'kategori'
+            ));
+        }
+
+        $produks = Produk::where('kategori_id', $kategori->id)->get();
+        $data_produk = [];
+        foreach ($produks as $produk) {
+            $galeris = [];
+            foreach ($produk->galeri as $galeri) {
+                if ($galeri->galeri_status == 'aktif') {
+                    $galeris[] =
+                        [
+                            'galeri_id' => $galeri->id,
+                            'galeri_file' => $galeri->galeri_file,
+                            'galeri_status' => $galeri->galeri_status
+                        ];
+                }
+            }
+            $data_produk[] =
+                [
+                    'produk_nama' => $produk->produk_nama,
+                    'produk_slug' => $produk->produk_slug,
+                    'produk_harga' => $produk->produk_harga,
+                    'produk_kategori' => $produk->kategori->kategori_nama,
+                    'produk_keterangan' => $produk->produk_keterangan,
+                    'galeri' => $galeris
+                ];
+        }
+
+        return view('shop.satu_kategori', compact(
+            'kategoris',
+            'data_produk',
+            'kategori'
+        ));
     }
 
     public function login_form()
@@ -88,5 +129,11 @@ class ShopController extends Controller
 
         if (Auth::guard('customer')->attempt($creds) === true) {
         }
+    }
+
+    public function produk()
+    {
+        $kategoris = Kategori::all();
+        return view('shop.produk', compact('kategoris'));
     }
 }

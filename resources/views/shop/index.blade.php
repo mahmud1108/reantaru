@@ -126,9 +126,9 @@
                                     <div class="wadah-gambar"
                                         style="width: 270px;height: 270px;display: flex;justify-content: center;align-items: center;overflow: hidden;">
                                         <img class="pri-img" style="max-width: 100%;max-height: 100%;object-fit: contain;"
-                                            src="{{ $data_produk[$i]['galeri'][0]['galeri_file'] }}" alt="product">
+                                            src="{{ asset($data_produk[$i]['galeri'][0]['galeri_file']) }}" alt="product">
                                         <img class="sec-img" style="max-width: 100%;max-height: 100%;object-fit: contain;"
-                                            src="{{ $data_produk[$i]['galeri'][0]['galeri_file'] }}" alt="product">
+                                            src="{{ asset($data_produk[$i]['galeri'][0]['galeri_file']) }}" alt="product">
                                     </div>
                                 </a>
                                 <div class="product-badge">
@@ -173,7 +173,7 @@
 
                                                     @for ($j = 0; $j < count($data_produk[$i]['galeri']); $j++)
                                                         <div class="pro-large-img img-zoom">
-                                                            <img src="{{ $data_produk[$i]['galeri'][$j]['galeri_file'] }}"
+                                                            <img src="{{ asset($data_produk[$i]['galeri'][$j]['galeri_file']) }}"
                                                                 alt="product-details" />
                                                         </div>
                                                     @endfor
@@ -181,7 +181,7 @@
                                                 <div class="pro-nav slick-row-10 slick-arrow-style">
                                                     @for ($j = 0; $j < count($data_produk[$i]['galeri']); $j++)
                                                         <div class="pro-nav-thumb">
-                                                            <img src="{{ $data_produk[$i]['galeri'][$j]['galeri_file'] }}"
+                                                            <img src="{{ asset($data_produk[$i]['galeri'][$j]['galeri_file']) }}"
                                                                 alt="product-details" />
                                                         </div>
                                                     @endfor

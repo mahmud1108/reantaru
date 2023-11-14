@@ -56,19 +56,22 @@
                                 <!-- main menu navbar start -->
                                 <nav class="desktop-menu">
                                     <ul>
-                                        <li class=""><a href="{{ route('shop-index') }}">Beranda</a></li>
-                                        <li>
+                                        <li class="{{ request()->is('/') ? 'active' : '' }}"><a
+                                                href="{{ route('shop-index') }}">Beranda</a></li>
+                                        <li class="{{ request()->is('shopKategori') ? 'active' : '' }}">
                                             <a href="{{ route('shopKategori.index') }}">Kategori <i
                                                     class="fa fa-angle-down"></i></a>
                                             <ul class="dropdown">
                                                 @foreach ($kategoris as $kategori)
-                                                    <li><a
+                                                    <li>
+                                                        <a
                                                             href="{{ route('satu-kategori', ['slug' => $kategori->kategori_nama]) }}">{{ $kategori->kategori_nama }}</a>
                                                     </li>
                                                 @endforeach
                                             </ul>
                                         </li>
-                                        <li><a href="produk.php">Produk</a></li>
+                                        <li class="{{ request()->is('produk') ? 'active' : '' }}"><a
+                                                href="{{ route('produk') }}">Produk</a></li>
                                         <li><a href="tentang-kami.php">Tentang Kami</a></li>
                                     </ul>
                                 </nav>

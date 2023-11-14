@@ -34,8 +34,10 @@
                             <div class="sidebar-body">
                                 <ul class="shop-categories">
                                     @foreach ($kategoris as $kategori)
-                                        <li><a href={{ route('satu-kategori', $kategori->id) }}>{{ $kategori->kategori_nama }}
-                                                <span>{{ count($kategori->produk) }}</span></a></li>
+                                        <li class="active">
+                                            <a href={{ route('satu-kategori', $kategori->kategori_nama) }}>{{ $kategori->kategori_nama }}
+                                                <span>{{ count($kategori->produk) }}</span></a>
+                                        </li>
                                     @endforeach
                                 </ul>
                             </div>
@@ -100,11 +102,11 @@
                                                     style="width: 270px;height: 270px;display: flex;justify-content: center;align-items: center;overflow: hidden;">
                                                     <img class="pri-img"
                                                         style="max-width: 100%;max-height: 100%;object-fit: contain;"
-                                                        src="{{ $data_produk[$i]['galeri'][0]['galeri_file'] }}"
+                                                        src="{{ asset($data_produk[$i]['galeri'][0]['galeri_file']) }}"
                                                         alt="product">
                                                     <img class="sec-img"
                                                         style="max-width: 100%;max-height: 100%;object-fit: contain;"
-                                                        src="{{ $data_produk[$i]['galeri'][0]['galeri_file'] }}"
+                                                        src="{{ asset($data_produk[$i]['galeri'][0]['galeri_file']) }}"
                                                         alt="product">
                                                 </div>
                                             </a>
@@ -150,7 +152,7 @@
 
                                                                     @for ($j = 0; $j < count($data_produk[$i]['galeri']); $j++)
                                                                         <div class="pro-large-img img-zoom">
-                                                                            <img src="{{ $data_produk[$i]['galeri'][$j]['galeri_file'] }}"
+                                                                            <img src="{{ asset($data_produk[$i]['galeri'][$j]['galeri_file']) }}"
                                                                                 alt="product-details" />
                                                                         </div>
                                                                     @endfor
@@ -158,7 +160,7 @@
                                                                 <div class="pro-nav slick-row-10 slick-arrow-style">
                                                                     @for ($j = 0; $j < count($data_produk[$i]['galeri']); $j++)
                                                                         <div class="pro-nav-thumb">
-                                                                            <img src="{{ $data_produk[$i]['galeri'][$j]['galeri_file'] }}"
+                                                                            <img src="{{ asset($data_produk[$i]['galeri'][$j]['galeri_file']) }}"
                                                                                 alt="product-details" />
                                                                         </div>
                                                                     @endfor

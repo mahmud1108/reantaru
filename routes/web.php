@@ -45,6 +45,7 @@ Route::get('/kategori/{slug}', [ShopController::class, 'satu_kategori'])->name('
 Route::get('/login', [ShopController::class, 'login_form'])->name('login_register_customer');
 Route::post('/register_act', [ShopController::class, 'register_act'])->name('register_act_customer');
 Route::get('/login_act', [ShopController::class, 'login_act'])->name('login_act_customer');
+Route::get('/produk', [ShopController::class, 'produk'])->name('produk');
 
 Route::resource('shopKategori', App\Http\Controllers\Customer\KategoriController::class);
 
