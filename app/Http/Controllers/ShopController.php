@@ -125,10 +125,13 @@ class ShopController extends Controller
             'email' => 'required|email:dns',
             'password' => 'required'
         ]);
-        dd(Auth::guard('customer')->attempt($creds));
-
         if (Auth::guard('customer')->attempt($creds) === true) {
+            return redirect()->route('shop-index');
         }
+
+        session()->flash('text', 'Email dan password tidak cocok');
+        session()->flash('type', 'danger');
+        return redirect()->back();
     }
 
     public function produk()
@@ -258,5 +261,14 @@ class ShopController extends Controller
                 'query'
             )
         );
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();;
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login_form_customer');
     }
 }

@@ -1,4 +1,5 @@
 <header class="header-area">
+
     <!-- main header start -->
     <div class="main-header d-none d-lg-block">
         <!-- header top start -->
@@ -18,8 +19,7 @@
                                 </li>
                                 @if (auth()->user())
                                     <li class="curreny-wrap">
-                                        <span><a href="logout.php">Logout</a></span>
-                                        {{-- <span><a href="{{ route('login_register_customer') }}">Daftar Akun</a></span> --}}
+                                        <span><a href="{{ route('logout') }}">Logout</a></span>
                                     </li>
                                 @else
                                     <li class="curreny-wrap">

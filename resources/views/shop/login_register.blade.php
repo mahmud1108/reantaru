@@ -55,7 +55,7 @@
 
                         <div class="login-reg-form-wrap">
                             <h2>Sign In</h2>
-                            <form action="{{ route('login_act_customer') }}" method="get">
+                            <form action="{{ route('login_act_customer') }}" method="post">
                                 @csrf
                                 <div class="single-input-item">
                                     <input name="email" type="email" placeholder="Email" required />
@@ -97,15 +97,6 @@
                                     </div>
                                 @endforeach
                             </ul>
-                        </div>
-                    @endif
-
-                    @if (session('text'))
-                        <div class="alert alert-{{ session('type') }} alert-dismissible fade show" role="alert">
-                            <strong>{{ session('text') }}</strong>
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
                         </div>
                     @endif
 
