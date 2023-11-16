@@ -49,6 +49,7 @@ Route::get('/produk', [ShopController::class, 'produk'])->name('produk');
 Route::get('/kategori', [ShopController::class, 'all_kategori'])->name('all_kategori');
 Route::get('/tentang', [ShopController::class, 'tentang'])->name('tentang');
 Route::get('/search', [ShopController::class, 'search'])->name('search');
+Route::get('/detail_produk/{slug}', [ShopController::class, 'detail_produk'])->name('detail_produk');
 
 Route::group([
     'middleware' => 'auth:customer'

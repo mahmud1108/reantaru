@@ -271,4 +271,67 @@ class ShopController extends Controller
 
         return redirect()->route('login_form_customer');
     }
+
+    public function detail_produk($slug)
+    {
+        $kategoris = Kategori::all();
+        $produks = Produk::where('produk_slug', $slug)->limit(1)->get();
+        $produk = Produk::where('produk_slug', $slug)->first();
+
+        $data_produk = [];
+        foreach ($produks as $produk) {
+            $galeris = [];
+            foreach ($produk->galeri as $galeri) {
+                if ($galeri->galeri_status == 'aktif') {
+                    $galeris[] =
+                        [
+                            'galeri_id' => $galeri->id,
+                            'galeri_file' => $galeri->galeri_file,
+                            'galeri_status' => $galeri->galeri_status
+                        ];
+                }
+            }
+            $varians = [];
+            foreach ($produk->varian as $varian) {
+                $atributs = [];
+                foreach ($varian->atribut as $atribut) {
+                    $atributs[] =
+                        [
+                            'atribut_id' => $atribut->id,
+                            'atribut_nama' => $atribut->atribut_nama,
+                            'harga_tambahan' => $atribut->harga_tambahan
+                        ];
+                }
+                $varians[] =
+                    [
+                        'varian_id' => $varian->id,
+                        'varian_nama' => $varian->varian_nama,
+                        'atribut' => $atributs
+                    ];
+            }
+            $data_produk[] =
+                [
+                    'produk_id' => $produk->id,
+                    'produk_nama' => $produk->produk_nama,
+                    'produk_slug' => $produk->produk_slug,
+                    'produk_harga' => $produk->produk_harga,
+                    'produk_kategori' => $produk->kategori->kategori_nama,
+                    'produk_keterangan' => $produk->produk_keterangan,
+                    'galeri' => $galeris,
+                    'varian' => $varians
+                ];
+        }
+
+        // return response()->json($data_produk);
+        // return response()->json(COUNT($data_produk[0]['varian']));
+
+        return view(
+            'shop.detail_produk',
+            compact(
+                'kategoris',
+                'data_produk',
+                'produk',
+            )
+        );
+    }
 }

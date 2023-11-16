@@ -42,7 +42,7 @@
                             </div>
                         </div>
 
-                        @include('components.shop.search') 
+                        @include('components.shop.search')
                     </aside>
                 </div>
                 <!-- sidebar area end -->
@@ -88,7 +88,7 @@
                                     <!-- product grid start -->
                                     <div class="product-item">
                                         <figure class="product-thumb">
-                                            <a href="">
+                                            <a href="{{ route('detail_produk', $data_produk[$i]['produk_slug']) }}">
                                                 <div class="wadah-gambar"
                                                     style="width: 270px;height: 270px;display: flex;justify-content: center;align-items: center;overflow: hidden;">
                                                     <img class="pri-img"
@@ -111,14 +111,15 @@
                                                     data-target="#quick_view{{ $i }}"><span data-toggle="tooltip"
                                                         data-placement="left" title="Lihat"><i
                                                             class="lnr lnr-magnifier"></i></span></a>
-                                                <a href="cart_tambah.php" data-toggle="tooltip" data-placement="left"
-                                                    title="Masukkan ke Keranjang"><i class="lnr lnr-cart"></i></a>
+                                                <a href="{{ route('cart.store') }}" data-toggle="tooltip"
+                                                    data-placement="left" title="Masukkan ke Keranjang"><i
+                                                        class="lnr lnr-cart"></i></a>
                                             </div>
                                         </figure>
                                         <div class="product-caption">
                                             <p class="product-name">
                                                 <a
-                                                    href="detail_produk.php?slug=asdf">{{ $data_produk[$i]['produk_nama'] }}</a>
+                                                    href="{{ route('detail_produk', $data_produk[$i]['produk_slug']) }}">{{ $data_produk[$i]['produk_nama'] }}</a>
                                             </p>
                                             <div class="price-box">
                                                 <span class="price-regular">Rp.
@@ -193,7 +194,7 @@
                                     <div class="product-list-item list-view">
                                         @for ($i = 0; $i < count($data_produk); $i++)
                                             <figure class="product-thumb">
-                                                <a href="detail_produk.php?slug=">
+                                                <a href="{{ route('detail_produk', $data_produk[$i]['produk_slug']) }}">
                                                     <div class="wadah-gambar"
                                                         style="width: 270px;height: 270px;display: flex;justify-content: center;align-items: center;overflow: hidden;">
                                                         <img class="pri-img"
@@ -215,7 +216,7 @@
                                             <div class="product-content-list">
                                                 <h5 class="product-name">
                                                     <a
-                                                        href="detail_produk.php?slug=">{{ $data_produk[$i]['produk_nama'] }}</a>
+                                                        href="{{ route('detail_produk', $data_produk[$i]['produk_slug']) }}">{{ $data_produk[$i]['produk_nama'] }}</a>
                                                 </h5>
                                                 <div class="price-box">
                                                     <span class="price-regular">Rp.

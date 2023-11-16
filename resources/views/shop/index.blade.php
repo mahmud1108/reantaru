@@ -89,8 +89,8 @@
                                         </div>
                                     </div>
                                     <div class="button-group">
-                                        <a href=""><span title="Lihat Kategori"><i
-                                                    class="lnr lnr-magnifier"></i></span></a>
+                                        <a href="{{ route('satu-kategori', $kategori->kategori_nama) }}"><span
+                                                title="Lihat Kategori"><i class="lnr lnr-magnifier"></i></span></a>
                                     </div>
                                 </figure>
                                 <div class="product-caption">
@@ -138,8 +138,9 @@
                                     </div>
                                 </div>
                                 <div class="button-group">
-                                    <a href="#" data-toggle="modal" data-target="#quick_view{{ $i }}"><span
-                                            data-toggle="tooltip" data-placement="left" title="Lihat"><i
+                                    <a href="#" data-toggle="modal"
+                                        data-target="#quick_view{{ $i }}"><span data-toggle="tooltip"
+                                            data-placement="left" title="Lihat"><i
                                                 class="lnr lnr-magnifier"></i></span></a>
                                     <a href="{{ route('cart.store') }}" data-toggle="tooltip" data-placement="left"
                                         title="Masukkan ke Keranjang"><i class="lnr lnr-cart"></i></a>

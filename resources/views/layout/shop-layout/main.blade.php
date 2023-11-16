@@ -9,7 +9,7 @@
     <title>Rentaru Digital Printing</title>
 
     <!--=== Favicon ===-->
-    <link rel="shortcut icon" href="assets/img/logo.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="{{ asset('assets/img/logo.ico') }}" type="image/x-icon" />
 
     <!-- Google fonts include -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,900%7CYesteryear"
@@ -21,6 +21,8 @@
     <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
         crossorigin="anonymous"></script>
+
+    @yield('style')
 </head>
 
 <body>

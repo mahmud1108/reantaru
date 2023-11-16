@@ -43,7 +43,7 @@
                     <div class="col-lg-3">
                         <div class="logo">
                             <a href="index.php">
-                                <img src="assets/img/logo/logo2.png" alt="">
+                                <img src="{{ asset('assets/img/logo/logo2.png') }}" alt="">
                             </a>
                         </div>
                     </div>
@@ -140,7 +140,7 @@
                     <div class="mobile-main-header">
                         <div class="mobile-logo">
                             <a href="index.php">
-                                <img src="assets/img/logo/logo2.png" alt="Brand Logo">
+                                <img src="{{ asset('assets/img/logo/logo2.png') }}" alt="Brand Logo">
                             </a>
                         </div>
                         <div class="mobile-menu-toggler">

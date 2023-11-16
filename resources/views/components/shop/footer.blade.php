@@ -28,7 +28,7 @@
                                 </li>
                             </ul>
                             <div class="payment-method">
-                                <img src="assets/img/payment-pic.png" alt="payment method">
+                                <img src="{{ asset('assets/img/payment-pic.png') }}" alt="payment method">
                             </div>
                         </div>
                     </div>
