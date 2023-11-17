@@ -22,6 +22,7 @@
     </div>
 
     <form action="{{ route('cart.store') }}" method="post" enctype="multipart/form-data">
+        @csrf
         <div class="shop-main-wrapper section-space">
             <div class="container">
                 <div class="row">
@@ -158,7 +159,7 @@
                                             </table>
                                         </div>
                                     </div>
-                                    @if (!auth()->user())
+                                    @if (!auth()->guard('customer')->user())
                                         <a href="{{ route('login_register_customer') }}"
                                             class="btn btn__bg d-block">Login</a>
                                     @else

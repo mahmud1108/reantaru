@@ -269,7 +269,7 @@ class ShopController extends Controller
         $request->session()->invalidate();;
         $request->session()->regenerateToken();
 
-        return redirect()->route('login_form_customer');
+        return redirect()->route('login_register_customer');
     }
 
     public function detail_produk($slug)

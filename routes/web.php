@@ -39,21 +39,23 @@ Route::group([
 });
 
 // SHOP
-Route::get('/', [ShopController::class, 'index'])->name('shop-index');
-Route::get('/kategori/{slug}', [ShopController::class, 'satu_kategori'])->name('satu-kategori');
 
 Route::get('/login', [ShopController::class, 'login_form'])->name('login_register_customer');
 Route::post('/register_act', [ShopController::class, 'register_act'])->name('register_act_customer');
 Route::post('/login_act', [ShopController::class, 'login_act'])->name('login_act_customer');
+
+Route::get('/kategori/{slug}', [ShopController::class, 'satu_kategori'])->name('satu-kategori');
 Route::get('/produk', [ShopController::class, 'produk'])->name('produk');
 Route::get('/kategori', [ShopController::class, 'all_kategori'])->name('all_kategori');
 Route::get('/tentang', [ShopController::class, 'tentang'])->name('tentang');
 Route::get('/search', [ShopController::class, 'search'])->name('search');
 Route::get('/detail_produk/{slug}', [ShopController::class, 'detail_produk'])->name('detail_produk');
 
-Route::group([
-    'middleware' => 'auth:customer'
-], function () {
+
+
+Route::get('/', [ShopController::class, 'index'])->name('shop-index');
+
+Route::middleware(['auth:customer'])->group(function () {
     route::resource('cart', CartController::class);
     Route::get('/logout', [ShopController::class, "logout"])->name('logout');
 });

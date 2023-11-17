@@ -123,7 +123,7 @@
                     <div class="col-lg-3 col-md-4 col-sm-6">
                         <div class="product-item mt-40">
                             <figure class="product-thumb">
-                                <a href="detail_produk.php?slug=produk_slug">
+                                <a href="{{ route('detail_produk', $data_produk[$i]['produk_slug']) }}">
                                     <div class="wadah-gambar"
                                         style="width: 270px;height: 270px;display: flex;justify-content: center;align-items: center;overflow: hidden;">
                                         <img class="pri-img" style="max-width: 100%;max-height: 100%;object-fit: contain;"
@@ -149,7 +149,7 @@
                             <div class="product-caption">
                                 <p class="product-name">
                                     <a
-                                        href="detail_produk.php?slug={{ $data_produk[$i]['produk_slug'] }}">{{ $data_produk[$i]['produk_nama'] }}</a>
+                                        href="{{ route('detail_produk', $data_produk[$i]['produk_slug']) }}">{{ $data_produk[$i]['produk_nama'] }}</a>
                                 </p>
                                 <div class="price-box">
                                     <span class="price-regular">Rp.

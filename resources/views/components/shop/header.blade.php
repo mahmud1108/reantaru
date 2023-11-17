@@ -1,5 +1,4 @@
 <header class="header-area">
-
     <!-- main header start -->
     <div class="main-header d-none d-lg-block">
         <!-- header top start -->
@@ -17,7 +16,7 @@
                                 <li class="contact us">
                                     <span><a href="kontak-kami.php">Kontak Kami</a></span>
                                 </li>
-                                @if (auth()->user())
+                                @if (auth()->guard('customer')->user())
                                     <li class="curreny-wrap">
                                         <span><a href="{{ route('logout') }}">Logout</a></span>
                                     </li>

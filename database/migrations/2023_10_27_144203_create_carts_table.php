@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('carts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('customer_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('galeri_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('produk_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->integer('cart_jumlah');
             $table->text('cart_keterangan');
             $table->string('cart_file');

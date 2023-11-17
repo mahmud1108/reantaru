@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Customer;
 
+use App\Helper\FileHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
+use App\Models\CartAtribut;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -29,7 +31,22 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        $cart = new Cart;
+        $cart->customer_id = auth()->user()->id;
+        $cart->produk_id = $request->produk_id;
+        $cart->cart_jumlah = $request->jumlah;
+        $cart->cart_keterangan = $request->keterangan;
+        $cart->cart_file = FileHelper::instance()->upload($request->foto, 'customer_cart_file');
+        $cart->save();
+
+        $get_last_cart = $cart->id;
+        for ($i = 0; $i < $request->no_var; $i++) {
+            $varian = 'varian' . $i;
+            $cart_atribut = new CartAtribut;
+            $cart_atribut->cart_id = $get_last_cart;
+            $cart_atribut->atribut_id = $request->$varian;
+            $cart_atribut->save();
+        }
     }
 
     /**
