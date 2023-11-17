@@ -9,6 +9,8 @@ class Customer extends Authenticatable
 {
     use HasFactory;
 
+    protected $guarded  = 'id';
+
     public function isCustomer()
     {
         return Customer::where('id', $this->id)->exist();

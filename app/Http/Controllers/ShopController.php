@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Customer\RegisterRequest;
+use App\Models\Cart;
 use App\Models\Customer;
 use App\Models\Kategori;
 use App\Models\Produk;
@@ -12,11 +13,22 @@ use Illuminate\Support\Facades\Hash;
 
 class ShopController extends Controller
 {
+    protected $kategoris, $carts;
+
+    public function __construct()
+    {
+        $this->kategoris = Kategori::all();
+        if (auth()->guard('customer')->user()) {
+            $this->carts = Cart::where('customer_id', auth()->guard('customer')->user()->id)->get();
+        } else {
+            $this->carts = '';
+        }
+    }
+
     public function index()
     {
-        $kategoris = Kategori::all();
-
         $produks = Produk::all();
+        $kategoris = $this->kategoris;
 
         $data_produk = [];
         foreach ($produks as $produk) {
@@ -54,8 +66,7 @@ class ShopController extends Controller
 
     public function satu_kategori($slug)
     {
-        $kategoris = Kategori::all();
-
+        $kategoris = $this->kategoris;
         $kategori = Kategori::where('kategori_nama', $slug)->first();
 
         if ($kategori === null) {
@@ -99,7 +110,7 @@ class ShopController extends Controller
 
     public function login_form()
     {
-        $kategoris = Kategori::all();
+        $kategoris = $this->kategoris;
         return view(
             'shop.login_register',
             compact('kategoris')
@@ -136,7 +147,7 @@ class ShopController extends Controller
 
     public function produk()
     {
-        $kategoris = Kategori::all();
+        $kategoris = $this->kategoris;
 
         $produks = Produk::all();
 
@@ -175,7 +186,7 @@ class ShopController extends Controller
 
     public function all_kategori()
     {
-        $kategoris = Kategori::all();
+        $kategoris = $this->kategoris;
 
         $produks = Produk::all();
 
@@ -214,7 +225,7 @@ class ShopController extends Controller
 
     public function tentang()
     {
-        $kategoris = Kategori::all();
+        $kategoris = $this->kategoris;
 
         return view(
             'shop.tentang_kami',
@@ -227,7 +238,7 @@ class ShopController extends Controller
         $query = $request->input('query');
         $produks = Produk::search($query)->get();
 
-        $kategoris = Kategori::all();
+        $kategoris = $this->kategoris;
 
         $data_produk = [];
         foreach ($produks as $produk) {
@@ -274,7 +285,7 @@ class ShopController extends Controller
 
     public function detail_produk($slug)
     {
-        $kategoris = Kategori::all();
+        $kategoris = $this->kategoris;
         $produks = Produk::where('produk_slug', $slug)->limit(1)->get();
         $produk = Produk::where('produk_slug', $slug)->first();
 

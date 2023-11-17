@@ -26,33 +26,23 @@
 </head>
 
 <body>
-    <!-- Start Header Area -->
     @include('components.shop.header')
-    <!-- end Header Area -->
 
-    <!-- off-canvas menu start -->
     @include('components.shop.aside')
-    <!-- off-canvas menu end -->
 
     @yield('shop-content')
 
-    <!-- Start Footer Area Wrapper -->
     @include('components.shop.footer')
-    <!-- End Footer Area Wrapper -->
 
     @include('components.shop.modal')
 
-    <!-- Scroll to top start -->
     <div class="scroll-top not-visible">
         <i class="fa fa-angle-up"></i>
     </div>
 
     @yield('javascript')
-
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-
     <script src="{{ asset('assets/js/vendor.js') }}"></script>
-    <!-- Active Js -->
     <script src="{{ asset('assets/js/active.js') }}"></script>
 </body>
 

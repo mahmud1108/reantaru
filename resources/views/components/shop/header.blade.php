@@ -96,13 +96,13 @@
                                             <i class="lnr lnr-user"></i>
                                         </a>
                                         <ul class="dropdown-list">
-                                            {{-- <?php if (isset($_SESSION['masuk'])) { ?>
-                                            <li><a href="my-account.php">my account</a></li>
-                                            <li><a href="logout.php">Logout</a></li>
-                                            <?php } else { ?>
-                                            <li><a href="login-register.php">login</a></li>
-                                            <li><a href="login-register.php">register</a></li>
-                                            <?php } ?>
+                                            @if (auth()->guard('customer')->user())
+                                                <li><a href="{{ route('my-acc') }}">my account</a></li>
+                                                <li><a href="{{ route('logout') }}">Logout</a></li>
+                                            @else
+                                                <li><a href="{{ route('login_register_customer') }}">login</a></li>
+                                                <li><a href="{{ route('login_register_customer') }}">register</a></li>
+                                            @endif
                                         </ul>
                                     </li>
                                     <?php if (isset($_SESSION['masuk'])) {
@@ -116,8 +116,8 @@
                                             <?php } ?>
                                         </a>
                                     </li>
-                                    <?php } ?> --}}
-                                        </ul>
+                                    <?php } ?>
+                                </ul>
                             </div>
                         </div>
                     </div>

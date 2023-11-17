@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\LoginAdminController;
 use App\Http\Controllers\Admin\ProdukController;
 use App\Http\Controllers\Admin\VarianController;
 use App\Http\Controllers\Customer\CartController;
+use App\Http\Controllers\Customer\ProfileController;
 use App\Http\Controllers\ShopController;
 use Illuminate\Support\Facades\Route;
 
@@ -58,4 +59,7 @@ Route::get('/', [ShopController::class, 'index'])->name('shop-index');
 Route::middleware(['auth:customer'])->group(function () {
     route::resource('cart', CartController::class);
     Route::get('/logout', [ShopController::class, "logout"])->name('logout');
+    Route::get('/my-acacount', [ProfileController::class, 'index'])->name('my-acc');
+    Route::post('/password', [ProfileController::class, 'password'])->name('password');
+    Route::post('/update', [ProfileController::class, 'profil_update'])->name('profil_update');
 });
