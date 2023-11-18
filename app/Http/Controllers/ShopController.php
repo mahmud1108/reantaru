@@ -13,24 +13,20 @@ use Illuminate\Support\Facades\Hash;
 
 class ShopController extends Controller
 {
-    protected $kategoris, $carts;
+    protected $kategoris, $carts, $data_produk;
 
     public function __construct()
     {
         $this->kategoris = Kategori::all();
+
         if (auth()->guard('customer')->user()) {
             $this->carts = Cart::where('customer_id', auth()->guard('customer')->user()->id)->get();
         } else {
             $this->carts = '';
         }
-    }
 
-    public function index()
-    {
+        $this->data_produk = [];
         $produks = Produk::all();
-        $kategoris = $this->kategoris;
-
-        $data_produk = [];
         foreach ($produks as $produk) {
             $galeris = [];
             foreach ($produk->galeri as $galeri) {
@@ -43,7 +39,7 @@ class ShopController extends Controller
                         ];
                 }
             }
-            $data_produk[] =
+            $this->data_produk[] =
                 [
                     'produk_nama' => $produk->produk_nama,
                     'produk_slug' => $produk->produk_slug,
@@ -53,8 +49,14 @@ class ShopController extends Controller
                     'galeri' => $galeris
                 ];
         }
+    }
 
-        // return response()->json($data_produk);
+    public function index()
+    {
+        $kategoris = $this->kategoris;
+
+        $data_produk = $this->data_produk;
+
         return view(
             'shop.index',
             compact(
@@ -137,7 +139,7 @@ class ShopController extends Controller
             'password' => 'required'
         ]);
         if (Auth::guard('customer')->attempt($creds) === true) {
-            return redirect()->route('shop-index');
+            return redirect()->route('my-acc');
         }
 
         session()->flash('text', 'Email dan password tidak cocok');
@@ -148,32 +150,7 @@ class ShopController extends Controller
     public function produk()
     {
         $kategoris = $this->kategoris;
-
-        $produks = Produk::all();
-
-        $data_produk = [];
-        foreach ($produks as $produk) {
-            $galeris = [];
-            foreach ($produk->galeri as $galeri) {
-                if ($galeri->galeri_status == 'aktif') {
-                    $galeris[] =
-                        [
-                            'galeri_id' => $galeri->id,
-                            'galeri_file' => $galeri->galeri_file,
-                            'galeri_status' => $galeri->galeri_status
-                        ];
-                }
-            }
-            $data_produk[] =
-                [
-                    'produk_nama' => $produk->produk_nama,
-                    'produk_slug' => $produk->produk_slug,
-                    'produk_harga' => $produk->produk_harga,
-                    'produk_kategori' => $produk->kategori->kategori_nama,
-                    'produk_keterangan' => $produk->produk_keterangan,
-                    'galeri' => $galeris
-                ];
-        }
+        $data_produk = $this->data_produk;
 
         return view(
             'shop.produk',
@@ -187,32 +164,7 @@ class ShopController extends Controller
     public function all_kategori()
     {
         $kategoris = $this->kategoris;
-
-        $produks = Produk::all();
-
-        $data_produk = [];
-        foreach ($produks as $produk) {
-            $galeris = [];
-            foreach ($produk->galeri as $galeri) {
-                if ($galeri->galeri_status == 'aktif') {
-                    $galeris[] =
-                        [
-                            'galeri_id' => $galeri->id,
-                            'galeri_file' => $galeri->galeri_file,
-                            'galeri_status' => $galeri->galeri_status
-                        ];
-                }
-            }
-            $data_produk[] =
-                [
-                    'produk_nama' => $produk->produk_nama,
-                    'produk_slug' => $produk->produk_slug,
-                    'produk_harga' => $produk->produk_harga,
-                    'produk_kategori' => $produk->kategori->kategori_nama,
-                    'produk_keterangan' => $produk->produk_keterangan,
-                    'galeri' => $galeris
-                ];
-        }
+        $data_produk = $this->data_produk;
 
         return view(
             'shop.all_kategori',
@@ -332,9 +284,6 @@ class ShopController extends Controller
                     'varian' => $varians
                 ];
         }
-
-        // return response()->json($data_produk);
-        // return response()->json(COUNT($data_produk[0]['varian']));
 
         return view(
             'shop.detail_produk',

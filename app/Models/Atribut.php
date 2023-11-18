@@ -10,4 +10,9 @@ class Atribut extends Model
     use HasFactory;
 
     protected $guarded = 'id';
+
+    public function varian()
+    {
+        return $this->belongsTo(Varian::class);
+    }
 }

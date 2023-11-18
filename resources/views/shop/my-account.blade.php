@@ -33,10 +33,8 @@
                                         <a href="#dashboard" class="active" data-toggle="tab"><i
                                                 class="fa fa-dashboard"></i>
                                             Dashboard</a>
-                                        <a onclick="window.location.hash='#profil';" href="#profil" data-toggle="tab"><i
-                                                class="fa fa-user"></i>Profil Akun</a>
-                                        <a onclick="window.location.hash='#ganti_pass';" href="#ganti_pass"
-                                            data-toggle="tab"><i class="fa fa-key"></i>Ganti password</a>
+                                        <a href="#profil" data-toggle="tab"><i class="fa fa-user"></i>Profil Akun</a>
+                                        <a href="#ganti_pass" data-toggle="tab"><i class="fa fa-key"></i>Ganti password</a>
                                         <a href="#keranjang" data-toggle="tab"><i class="fa fa-cart-arrow-down"></i>
                                             Keranjang</a>
                                         <a href="#transaksi" data-toggle="tab"><i class="fa fa-dollar"></i>
@@ -48,14 +46,6 @@
 
                                 <!-- My Account Tab Content Start -->
                                 <div class="col-lg-9 col-md-8">
-
-                                    {{-- <div class="alert alert-success alert-dismissible fade show" id="multi_mail"
-                                        role="alert">
-                                        <strong>asdfasdf</strong>
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div> --}}
                                     @if (session('text'))
                                         <div class="alert alert-{{ session('type') }} alert-dismissible fade show"
                                             id="multi_mail" role="alert">
@@ -103,7 +93,7 @@
                                         <!-- Single Tab Content End -->
 
                                         <!-- Single Tab Content Start -->
-                                        {{-- <div class="tab-pane fade" id="keranjang" role="tabpanel">
+                                        <div class="tab-pane fade" id="keranjang" role="tabpanel">
                                             <div class="cart-main-wrapper section-space pb-0 pt-0">
                                                 <div class="container">
                                                     <div class="section-bg-color">
@@ -124,144 +114,140 @@
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
-                                                                            <?php
-                                          $c = mysqli_query($koneksi, "SELECT * from cart c left join produk p on c.cart_produk=p.produk_id left join galeri g on p.produk_galeri=g.galeri_produk where g.galeri_status='Aktif' and  c.cart_customer='$_SESSION[customer_id]'");
-                                          $no = 1;
-                                          $total_harga = 0;
-                                          while ($cart = mysqli_fetch_assoc($c)) {
-                                          ?>
-                                                                            <tr>
-                                                                                <td><?= $no ?></td>
-                                                                                <td class="pro-thumbnail"><a
-                                                                                        href="#"><img
-                                                                                            class="img-fluid"
-                                                                                            src="gambar/produk/<?= $cart['galeri_nama'] ?>"
-                                                                                            alt="Product" /></a></td>
-                                                                                <td class="pro-title"><a
-                                                                                        href="#"><?= $cart['produk_nama'] ?></a>
-                                                                                </td>
-                                                                                <td class="pro-price">
-                                                                                    <span><?= rupiah($cart['produk_harga']) ?></span>
-                                                                                </td>
-                                                                                <td class="pro-quantity">
-                                                                                    <?= $cart['cart_jumlah'] ?>
-                                                                                </td>
-                                                                                <td class="pro-subtotal">
-                                                                                    <span><?= rupiah($cart['produk_harga'] * $cart['cart_jumlah']) ?></span>
-                                                                                </td>
-                                                                                <td class="pro-remove"><a
-                                                                                        href="cart_edit.php?id=<?= $cart['cart_id'] ?>"><i
-                                                                                            class="fa fa-pencil"></i></a>
-                                                                                    &nbsp;<a href="#"
-                                                                                        data-toggle="modal"
-                                                                                        data-target="#deleteCart<?= $cart['cart_id'] ?>"><i
-                                                                                            class="fa fa-trash-o"></i></a>
-                                                                                </td>
-                                                                            </tr>
+                                                                            @for ($i = 0; $i < count($data_carts); $i++)
+                                                                                <tr>
+                                                                                    <td>{{ $i + 1 }}</td>
+                                                                                    <td class="pro-thumbnail"><a
+                                                                                            href="#"><img
+                                                                                                class="img-fluid"
+                                                                                                src="{{ asset($data_carts[$i]['produk_thumb'][0]['galeri']) }}"
+                                                                                                alt="Product" /></a>
+                                                                                    </td>
+                                                                                    <td class="pro-title"><a
+                                                                                            href="#">{{ $data_carts[$i]['produk_nama'] }}</a>
+                                                                                    </td>
+                                                                                    <td class="pro-price">
+                                                                                        <span>{{ $data_carts[$i]['produk_harga'] }}</span>
+                                                                                    </td>
+                                                                                    <td class="pro-quantity">
+                                                                                        {{ $data_carts[$i]['cart_jumlah'] }}
+                                                                                    </td>
+                                                                                    <td class="pro-subtotal">
+                                                                                        <span>{{ $data_carts[$i]['jml_harga'] }}</span>
+                                                                                    </td>
+                                                                                    <td class="pro-remove"><a
+                                                                                            href="cart_edit.php?id="><i
+                                                                                                class="fa fa-pencil"></i></a>
+                                                                                        &nbsp;<a href="#"
+                                                                                            data-toggle="modal"
+                                                                                            data-target="#deleteCart{{ $data_carts[$i]['cart_id'] }}"><i
+                                                                                                class="fa fa-trash-o"></i></a>
+                                                                                    </td>
+                                                                                </tr>
 
-                                                                            <!-- Elemen untuk dialog modal -->
-                                                                            <div class="modal fade"
-                                                                                id="deleteCart<?= $cart['cart_id'] ?>">
-                                                                                <div class="modal-dialog modal-md">
-                                                                                    <div class="modal-content">
-                                                                                        <div class="modal-header">
-                                                                                            <button type="button"
-                                                                                                class="close"
-                                                                                                data-dismiss="modal">&times;</button>
-                                                                                        </div>
-                                                                                        <div class="modal-body">
-                                                                                            <div class="modal-body">
-                                                                                                Apakah Anda yakin ingin
-                                                                                                menghapus data ini?
-                                                                                                <b><?= $cart['produk_nama'] ?></b>
+
+                                                                                <!-- Elemen untuk dialog modal -->
+                                                                                <div class="modal fade"
+                                                                                    id="deleteCart{{ $data_carts[$i]['cart_id'] }}">
+                                                                                    <div class="modal-dialog modal-md">
+                                                                                        <div class="modal-content">
+                                                                                            <div class="modal-header">
+                                                                                                <button type="button"
+                                                                                                    class="close"
+                                                                                                    data-dismiss="modal">&times;</button>
                                                                                             </div>
-                                                                                            <div class="modal-footer">
-                                                                                                <form action=""
-                                                                                                    method="post">
-                                                                                                    <input type="hidden"
-                                                                                                        name="hapus_cart"
-                                                                                                        value="<?= $cart['cart_id'] ?>">
-                                                                                                    <button type="submit"
-                                                                                                        class="btn btn__bg d-block">Hapus</button>
-                                                                                                </form>
+                                                                                            <div class="modal-body">
+                                                                                                <div class="modal-body">
+                                                                                                    Apakah Anda yakin
+                                                                                                    ingin
+                                                                                                    menghapus
+                                                                                                    <b>{{ $data_carts[$i]['produk_nama'] }}</b>
+                                                                                                    dari keranjang ?
+                                                                                                </div>
+                                                                                                <div class="modal-footer">
+                                                                                                    <form
+                                                                                                        action="{{ route('cart.destroy', $data_carts[$i]['cart_id']) }}"
+                                                                                                        method="post">
+                                                                                                        @csrf
+                                                                                                        @method('delete')
+                                                                                                        <button
+                                                                                                            type="submit"
+                                                                                                            class="btn btn__bg d-block">Hapus</button>
+                                                                                                    </form>
+                                                                                                </div>
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
-                                                                            </div>
+                                                                                @for ($j = 0; $j < count($data_carts[$i]['atribut']); $j++)
+                                                                                    <tr>
+                                                                                        <td></td>
+                                                                                        <td></td>
+                                                                                        <td class="pro-title"><a
+                                                                                                href="#">{{ $data_carts[$i]['atribut'][$j]['varian_nama'] }}
+                                                                                                <sup>({{ $data_carts[$i]['atribut'][$j]['atribut_nama'] }})</sup></a>
+                                                                                        </td>
+                                                                                        <td class="pro-price">
+                                                                                            <span>{{ $data_carts[$i]['atribut'][$j]['harga_tambahan'] }}</span>
+                                                                                        </td>
+                                                                                        <td class="pro-quantity">
+                                                                                            {{ $data_carts[$i]['cart_jumlah'] }}
+                                                                                        </td>
+                                                                                        <td class="pro-price">
+                                                                                            <span>{{ $data_carts[$i]['atribut'][$j]['jml_harga_tambahan'] }}</span>
+                                                                                        </td>
+                                                                                        <td class="pro-remove"><a
+                                                                                                href="#"
+                                                                                                data-toggle="modal"
+                                                                                                data-target="#deleteAtribut{{ $data_carts[$i]['atribut'][$j]['cart_atribut_id'] }}"><i
+                                                                                                    class="fa fa-trash-o"></i></a>
+                                                                                        </td>
+                                                                                    </tr>
 
-                                                                            <?php
-                                            $total_harga = $total_harga + ($cart['produk_harga'] * $cart['cart_jumlah']);
-                                            $cart_atribut = mysqli_query($koneksi, "SELECT * FROM cart_atribut ca left join atribut a on ca.ca_atribut=a.atribut_id left join varian v on a.atribut_varian=v.varian_id where ca.ca_cart='$cart[cart_id]'");
-                                            while ($tcart_atribut = mysqli_fetch_assoc($cart_atribut)) {
-                                            ?>
-                                                                            <tr>
-                                                                                <td></td>
-                                                                                <td></td>
-                                                                                <td class="pro-title"><a
-                                                                                        href="#"><?= $tcart_atribut['atribut_nama'] ?>
-                                                                                        <sup>(<?= $tcart_atribut['varian_nama'] ?>)</sup></a>
-                                                                                </td>
-                                                                                <td class="pro-price">
-                                                                                    <span><?= rupiah($tcart_atribut['harga_tambahan']) ?></span>
-                                                                                </td>
-                                                                                <td class="pro-quantity">
-                                                                                    <?= $cart['cart_jumlah'] ?>
-                                                                                </td>
-                                                                                <td class="pro-price">
-                                                                                    <span><?= rupiah($tcart_atribut['harga_tambahan'] * $cart['cart_jumlah']) ?></span>
-                                                                                </td>
-                                                                                <td class="pro-remove"><a href="#"
-                                                                                        data-toggle="modal"
-                                                                                        data-target="#deleteAtribut<?= $tcart_atribut['ca_id'] ?>"><i
-                                                                                            class="fa fa-trash-o"></i></a>
-                                                                                </td>
-                                                                            </tr>
-
-                                                                            <!-- Elemen untuk dialog modal -->
-                                                                            <div class="modal fade"
-                                                                                id="deleteAtribut<?= $tcart_atribut['ca_id'] ?>">
-                                                                                <div class="modal-dialog modal-md">
-                                                                                    <div class="modal-content">
-                                                                                        <div class="modal-header">
-                                                                                            <button type="button"
-                                                                                                class="close"
-                                                                                                data-dismiss="modal">&times;</button>
-                                                                                        </div>
-                                                                                        <div class="modal-body">
-                                                                                            <div class="modal-body">
-                                                                                                Apakah Anda yakin ingin
-                                                                                                menghapus data ini?
-                                                                                                <b><?= $tcart_atribut['atribut_nama'] ?></b>
-                                                                                            </div>
-                                                                                            <div class="modal-footer">
-                                                                                                <form action=""
-                                                                                                    method="post">
-                                                                                                    <input type="hidden"
-                                                                                                        name="hapus_atribut"
-                                                                                                        value="<?= $tcart_atribut['ca_id'] ?>">
-                                                                                                    <button type="submit"
-                                                                                                        class="btn btn__bg d-block">Hapus</button>
-                                                                                                </form>
+                                                                                    <!-- Elemen untuk dialog modal -->
+                                                                                    <div class="modal fade"
+                                                                                        id="deleteAtribut{{ $data_carts[$i]['atribut'][$j]['cart_atribut_id'] }}">
+                                                                                        <div class="modal-dialog modal-md">
+                                                                                            <div class="modal-content">
+                                                                                                <div class="modal-header">
+                                                                                                    <button type="button"
+                                                                                                        class="close"
+                                                                                                        data-dismiss="modal">&times;</button>
+                                                                                                </div>
+                                                                                                <div class="modal-body">
+                                                                                                    <div
+                                                                                                        class="modal-body">
+                                                                                                        Apakah Anda yakin
+                                                                                                        ingin
+                                                                                                        menghapus varian
+                                                                                                        <b>{{ $data_carts[$i]['atribut'][$j]['varian_nama'] }}</b>
+                                                                                                        ?
+                                                                                                    </div>
+                                                                                                    <div
+                                                                                                        class="modal-footer">
+                                                                                                        <form
+                                                                                                            action="{{ route('cart_atribut_destroy', $data_carts[$i]['atribut'][$j]['cart_atribut_id']) }}"
+                                                                                                            method="post">
+                                                                                                            @csrf
+                                                                                                            <button
+                                                                                                                type="submit"
+                                                                                                                class="btn btn__bg d-block">Hapus</button>
+                                                                                                        </form>
+                                                                                                    </div>
+                                                                                                </div>
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <?php
-    
-                                              $total_harga = $total_harga + ($tcart_atribut['harga_tambahan'] * $cart['cart_jumlah']);
-                                            }
-                                            $no++;
-                                          } ?>
-
+                                                                                @endfor
+                                                                            @endfor
                                                                             <tr class="total">
                                                                                 <td colspan="4"></td>
                                                                                 <td style="font-size: 15px;">
                                                                                     Total
                                                                                 </td>
-                                                                                <td class="total-amount">
-                                                                                    <?= rupiah($total_harga) ?></td>
+                                                                                <td class="total-amount">Rp.
+                                                                                    {{ number_format($total_harga, 0, ',', '.') }}
+                                                                                </td>
                                                                                 <td></td>
                                                                             </tr>
                                                                         </tbody>
@@ -269,34 +255,31 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <?php
-                                $jml = mysqli_num_rows(mysqli_query($koneksi, "SELECT * from cart where cart_customer='$_SESSION[customer_id]'"));
-                                if ($jml > 0) {
-                                ?>
-                                                        <div class="row">
-                                                            <div class="col-lg-5 ml-auto">
-                                                                <!-- Cart Calculation Area -->
-                                                                <div class="cart-calculator-wrapper">
-                                                                    <a href="checkout.php"
-                                                                        class="btn btn__bg d-block">Proses Checkout</a>
+                                                        @if (count($data_carts) > 0)
+                                                            <div class="row">
+                                                                <div class="col-lg-5 ml-auto">
+                                                                    <!-- Cart Calculation Area -->
+                                                                    <div class="cart-calculator-wrapper">
+                                                                        <a href="checkout.php"
+                                                                            class="btn btn__bg d-block">Proses Checkout</a>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <?php } else { ?>
-                                                        <div class="row">
-                                                            <div class="col-lg-5 ml-auto">
-                                                                <!-- Cart Calculation Area -->
-                                                                <div class="cart-calculator-wrapper">
-                                                                    <a href="produk.php"
-                                                                        class="btn btn__bg d-block">Tambah Produk</a>
+                                                        @else
+                                                            <div class="row">
+                                                                <div class="col-lg-5 ml-auto">
+                                                                    <!-- Cart Calculation Area -->
+                                                                    <div class="cart-calculator-wrapper">
+                                                                        <a href="{{ route('produk') }}"
+                                                                            class="btn btn__bg d-block">Tambah Produk</a>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <?php } ?>
+                                                        @endif
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div> --}}
+                                        </div>
 
                                         {{-- <div class="tab-pane fade" id="transaksi" role="tabpanel">
                                             <div class="myaccount-content">
@@ -342,11 +325,11 @@
                                     $no++;
                                   }
                                   ?>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div> --}}
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div> --}}
                                         <!-- Single Tab Content End -->
 
                                         <!-- Single Tab Content Start -->
@@ -359,7 +342,8 @@
                                                         <div class="row">
                                                             <div class="col-lg-12">
                                                                 <div class="single-input-item">
-                                                                    <label for="first-name">Nama Lengkap</label>
+                                                                    <label for="first-name">Nama
+                                                                        Lengkap</label>
                                                                     <input type="text" id="first-name" name="nama"
                                                                         placeholder="Nama Lengkap"
                                                                         value="{{ auth()->guard('customer')->user()->customer_nama }}"
@@ -368,17 +352,21 @@
                                                             </div>
                                                         </div>
                                                         <div class="single-input-item">
-                                                            <label for="email">Email Addres</label>
+                                                            <label for="email">Email
+                                                                Addres</label>
                                                             <input type="email" id="email" name="email"
                                                                 value="{{ auth()->guard('customer')->user()->email }}"
                                                                 placeholder="Email Address" required />
                                                         </div>
                                                         <div class="single-input-item">
-                                                            <label for="no_hp">No Handphone</label>
+                                                            <label for="no_hp">No
+                                                                Handphone</label>
                                                             <input type="text" id="customer_hp" name="customer_hp"
                                                                 placeholder="No Handphone"
                                                                 value="{{ auth()->guard('customer')->user()->customer_hp }}"
                                                                 required />
+                                                            <small style="color: red">*menggunakan
+                                                                format 08</small>
                                                         </div>
                                                         <div class="single-input-item">
                                                             <button class="btn btn__bg" name="save">SImpan
@@ -398,14 +386,16 @@
                                                         <div class="row">
                                                             <div class="col-lg-12">
                                                                 <div class="single-input-item">
-                                                                    <label>Password Baru</label>
+                                                                    <label>Password
+                                                                        Baru</label>
                                                                     <input type="password" name="password"
                                                                         placeholder="Password Baru" />
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="single-input-item">
-                                                            <label>Konfirmasi Password</label>
+                                                            <label>Konfirmasi
+                                                                Password</label>
                                                             <input type="password" name="password_confirmation"
                                                                 placeholder="Konfirmasi Password" />
                                                         </div>

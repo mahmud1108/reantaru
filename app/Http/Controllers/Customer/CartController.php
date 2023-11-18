@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\CartAtribut;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Test\Constraint\ResponseFormatSame;
 
 class CartController extends Controller
 {
@@ -39,14 +40,17 @@ class CartController extends Controller
         $cart->cart_file = FileHelper::instance()->upload($request->foto, 'customer_cart_file');
         $cart->save();
 
-        $get_last_cart = $cart->id;
-        for ($i = 0; $i < $request->no_var; $i++) {
-            $varian = 'varian' . $i;
-            $cart_atribut = new CartAtribut;
-            $cart_atribut->cart_id = $get_last_cart;
-            $cart_atribut->atribut_id = $request->$varian;
-            $cart_atribut->save();
+        if ($request->varian0 != null) {
+            $get_last_cart = $cart->id;
+            for ($i = 0; $i < $request->no_var; $i++) {
+                $varian = 'varian' . $i;
+                $cart_atribut = new CartAtribut;
+                $cart_atribut->cart_id = $get_last_cart;
+                $cart_atribut->atribut_id = $request->$varian;
+                $cart_atribut->save();
+            }
         }
+        return redirect()->route('my-acc');
     }
 
     /**
@@ -54,7 +58,7 @@ class CartController extends Controller
      */
     public function show(Cart $cart)
     {
-        //
+        
     }
 
     /**
@@ -78,6 +82,16 @@ class CartController extends Controller
      */
     public function destroy(Cart $cart)
     {
-        //
+        FileHelper::instance()->delete($cart->cart_file);
+        $cart->delete();
+
+        return redirect()->back();
+    }
+
+    public function cart_atribut_destroy(CartAtribut $cartAtribut)
+    {
+        $cartAtribut->delete();
+
+        return redirect()->back();
     }
 }
