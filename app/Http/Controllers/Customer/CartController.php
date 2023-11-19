@@ -60,67 +60,72 @@ class CartController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Cart $cart)
+    public function show($cart)
     {
+        $cart = Cart::where('id', $cart)->where('customer_id', auth()->user()->id)->get();
         $kategoris = Kategori::all();
 
-        $galeris = [];
-        foreach ($cart->produk->galeri as $galeri) {
-            if ($galeri->galeri_status == 'aktif') {
-                $galeris[] =
+        if (count($cart) > 0) {
+            $galeris = [];
+            foreach ($cart->produk->galeri as $galeri) {
+                if ($galeri->galeri_status == 'aktif') {
+                    $galeris[] =
+                        [
+                            'galeri_id' => $galeri->id,
+                            'galeri_file' => $galeri->galeri_file,
+                            'galeri_status' => $galeri->galeri_status
+                        ];
+                }
+            }
+
+            $cart_atributs = [];
+            foreach ($cart->cart_atribut as $cart_atribut) {
+                $cart_atributs[] =
                     [
-                        'galeri_id' => $galeri->id,
-                        'galeri_file' => $galeri->galeri_file,
-                        'galeri_status' => $galeri->galeri_status
+                        'cart_atribut_id' => $cart_atribut->id,
+                        'atribut_id' => $cart_atribut->atribut_id,
+                        'atribut_nama' => $cart_atribut->atribut->atribut_nama
                     ];
             }
-        }
 
-        $cart_atributs = [];
-        foreach ($cart->cart_atribut as $cart_atribut) {
-            $cart_atributs[] =
-                [
-                    'cart_atribut_id' => $cart_atribut->id,
-                    'atribut_id' => $cart_atribut->atribut_id,
-                    'atribut_nama' => $cart_atribut->atribut->atribut_nama
-                ];
-        }
-
-        $varians = [];
-        foreach ($cart->produk->varian as $varian) {
-            $atributs = [];
-            foreach ($varian->atribut as $atribut) {
-                $atributs[] =
+            $varians = [];
+            foreach ($cart->produk->varian as $varian) {
+                $atributs = [];
+                foreach ($varian->atribut as $atribut) {
+                    $atributs[] =
+                        [
+                            'atribut_id' => $atribut->id,
+                            'atribut_nama' => $atribut->atribut_nama,
+                            'harga_tambahan' => $atribut->harga_tambahan
+                        ];
+                }
+                $varians[] =
                     [
-                        'atribut_id' => $atribut->id,
-                        'atribut_nama' => $atribut->atribut_nama,
-                        'harga_tambahan' => $atribut->harga_tambahan
+                        'varian_id' => $varian->id,
+                        'varian_nama' => $varian->varian_nama,
+                        'atribut' => $atributs
                     ];
             }
-            $varians[] =
-                [
-                    'varian_id' => $varian->id,
-                    'varian_nama' => $varian->varian_nama,
-                    'atribut' => $atributs
-                ];
+
+
+            $path = $cart->cart_file;
+            $pathParts = explode('/', $path);
+            $lastWord = end($pathParts);
+
+            return view(
+                'shop.detail_cart',
+                compact(
+                    'kategoris',
+                    'galeris',
+                    'cart_atributs',
+                    'cart',
+                    'varians',
+                    'lastWord'
+                )
+            );
         }
 
-
-        $path = $cart->cart_file;
-        $pathParts = explode('/', $path);
-        $lastWord = end($pathParts);
-
-        return view(
-            'shop.detail_cart',
-            compact(
-                'kategoris',
-                'galeris',
-                'cart_atributs',
-                'cart',
-                'varians',
-                'lastWord'
-            )
-        );
+        abort(404, 'Cart not found');
     }
 
     /**
