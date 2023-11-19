@@ -136,7 +136,7 @@
                                                                                         <span>{{ $data_carts[$i]['jml_harga'] }}</span>
                                                                                     </td>
                                                                                     <td class="pro-remove"><a
-                                                                                            href="cart_edit.php?id="><i
+                                                                                            href="{{ route('cart.show', $data_carts[$i]['cart_id']) }}"><i
                                                                                                 class="fa fa-pencil"></i></a>
                                                                                         &nbsp;<a href="#"
                                                                                             data-toggle="modal"

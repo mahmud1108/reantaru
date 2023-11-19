@@ -6,8 +6,11 @@ use App\Helper\FileHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\CartAtribut;
+use App\Models\Kategori;
+use App\Models\Produk;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Test\Constraint\ResponseFormatSame;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
 
 class CartController extends Controller
 {
@@ -58,7 +61,65 @@ class CartController extends Controller
      */
     public function show(Cart $cart)
     {
-        
+        $kategoris = Kategori::all();
+
+        $galeris = [];
+        foreach ($cart->produk->galeri as $galeri) {
+            if ($galeri->galeri_status == 'aktif') {
+                $galeris[] =
+                    [
+                        'galeri_id' => $galeri->id,
+                        'galeri_file' => $galeri->galeri_file,
+                        'galeri_status' => $galeri->galeri_status
+                    ];
+            }
+        }
+
+        $cart_atributs = [];
+        foreach ($cart->cart_atribut as $cart_atribut) {
+            $cart_atributs[] =
+                [
+                    'cart_atribut_id' => $cart_atribut->id,
+                    'atribut_id' => $cart_atribut->atribut_id,
+                    'atribut_nama' => $cart_atribut->atribut->atribut_nama
+                ];
+        }
+
+        $varians = [];
+        foreach ($cart->produk->varian as $varian) {
+            $atributs = [];
+            foreach ($varian->atribut as $atribut) {
+                $atributs[] =
+                    [
+                        'atribut_id' => $atribut->id,
+                        'atribut_nama' => $atribut->atribut_nama,
+                        'harga_tambahan' => $atribut->harga_tambahan
+                    ];
+            }
+            $varians[] =
+                [
+                    'varian_id' => $varian->id,
+                    'varian_nama' => $varian->varian_nama,
+                    'atribut' => $atributs
+                ];
+        }
+
+
+        $path = $cart->cart_file;
+        $pathParts = explode('/', $path);
+        $lastWord = end($pathParts);
+
+        return view(
+            'shop.detail_cart',
+            compact(
+                'kategoris',
+                'galeris',
+                'cart_atributs',
+                'cart',
+                'varians',
+                'lastWord'
+            )
+        );
     }
 
     /**
@@ -74,7 +135,7 @@ class CartController extends Controller
      */
     public function update(Request $request, Cart $cart)
     {
-        //
+        dd($cart, $request->all());
     }
 
     /**
@@ -93,5 +154,17 @@ class CartController extends Controller
         $cartAtribut->delete();
 
         return redirect()->back();
+    }
+
+    public function download($filename)
+    {
+        $disk = 'storage/customer_cart_file/' . $filename;
+
+        if (file_exists($disk)) {
+
+            return response()->download($disk);
+        }
+
+        abort(404, 'File not found');
     }
 }

@@ -59,6 +59,7 @@ Route::get('/detail_produk/{slug}', [ShopController::class, 'detail_produk'])->n
 Route::middleware(['auth:customer'])->group(function () {
     route::resource('cart', CartController::class);
     Route::post('/cart/{cartAtribut}', [CartController::class, 'cart_atribut_destroy'])->name('cart_atribut_destroy');
+    Route::get('/cart_file/download/{filename}', [CartController::class, 'download'])->name('download');
 
     Route::get('/logout', [ShopController::class, "logout"])->name('logout');
     Route::get('/my-acacount', [ProfileController::class, 'index'])->name('my-acc');
