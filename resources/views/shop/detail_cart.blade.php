@@ -75,6 +75,14 @@
                                             </div>
                                         </div>
 
+                                        @if (count($cart_atributs) > 0)
+                                            @for ($a = 0; $a < count($cart_atributs); $a++)
+                                                <input type="hidden" name="cart_atribut_id{{ $a }}"
+                                                    value="{{ $cart_atributs[$a]['cart_atribut_id'] }}">
+                                            @endfor
+                                            <input type="hidden" name="cart_atribut" value="{{ $a }}">
+                                        @endif
+
                                         @for ($i = 0; $i < count($varians); $i++)
                                             <div class="pro-size">
                                                 <h5>{{ $varians[$i]['varian_nama'] }} :</h5>

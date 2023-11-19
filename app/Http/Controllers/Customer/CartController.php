@@ -9,6 +9,7 @@ use App\Models\CartAtribut;
 use App\Models\Kategori;
 use App\Models\Produk;
 use Illuminate\Http\Request;
+use Monolog\Handler\DeduplicationHandler;
 use Symfony\Component\HttpFoundation\Test\Constraint\ResponseFormatSame;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 
@@ -135,7 +136,99 @@ class CartController extends Controller
      */
     public function update(Request $request, Cart $cart)
     {
-        dd($cart, $request->all());
+        // dd($request->all());
+        if (!$request->foto) {
+            $cart->cart_jumlah = $request->jumlah;
+            $cart->cart_keterangan = $request->keterangan;
+            $cart->update();
+
+            if ($request->cart_atribut > 0) {
+                for ($i = 0; $i < $request->cart_atribut; $i++) {
+                    $cart_atribut_id = 'cart_atribut_id' . $i;
+                    if ($request->$cart_atribut_id == null) {
+                        break;
+                    }
+                    $cek_cart_atribut_id = CartAtribut::where('id', $request->$cart_atribut_id)->get();
+                }
+            } else {
+                $cek_cart_atribut_id = [];
+            }
+
+            if ($request->varian0 !== null) {
+                if (count($cek_cart_atribut_id) === 0) {
+                    for ($i = 0; $i < $request->no_var; $i++) {
+                        $varian = 'varian' . $i;
+                        $cart_atribut = new CartAtribut;
+                        $cart_atribut->cart_id = $cart->id;
+                        $cart_atribut->atribut_id = $request->$varian;
+                        $cart_atribut->save();
+                    }
+                } else {
+                    foreach ($cek_cart_atribut_id as $hasil_cart_atribut) {
+
+                        for ($i = 0; $i < $request->no_var; $i++) {
+                            $varian = 'varian' . $i;
+                            if ($request->$varian === null) {
+                                break;
+                            }
+
+                            $hasil_cart_atribut->cart_id = $cart->id;
+                            $hasil_cart_atribut->atribut_id = $request->$varian;
+                            $hasil_cart_atribut->update();
+                        }
+                    }
+                }
+            }
+            return redirect()->back();
+        } else {
+
+            FileHelper::instance()->delete($cart->cart_file);
+            $file = FileHelper::instance()->upload($request->foto, 'customer_cart_file');
+
+            $cart->cart_jumlah = $request->jumlah;
+            $cart->cart_keterangan = $request->keterangan;
+            $cart->cart_file = $file;
+            $cart->update();
+
+            if ($request->cart_atribut > 0) {
+                for ($i = 0; $i < $request->cart_atribut; $i++) {
+                    $cart_atribut_id = 'cart_atribut_id' . $i;
+                    if ($request->$cart_atribut_id == null) {
+                        break;
+                    }
+                    $cek_cart_atribut_id = CartAtribut::where('id', $request->$cart_atribut_id)->get();
+                }
+            } else {
+                $cek_cart_atribut_id = [];
+            }
+
+            if ($request->varian0 !== null) {
+                if (count($cek_cart_atribut_id) === 0) {
+                    for ($i = 0; $i < $request->no_var; $i++) {
+                        $varian = 'varian' . $i;
+                        $cart_atribut = new CartAtribut;
+                        $cart_atribut->cart_id = $cart->id;
+                        $cart_atribut->atribut_id = $request->$varian;
+                        $cart_atribut->save();
+                    }
+                } else {
+                    foreach ($cek_cart_atribut_id as $hasil_cart_atribut) {
+
+                        for ($i = 0; $i < $request->no_var; $i++) {
+                            $varian = 'varian' . $i;
+                            if ($request->$varian === null) {
+                                break;
+                            }
+
+                            $hasil_cart_atribut->cart_id = $cart->id;
+                            $hasil_cart_atribut->atribut_id = $request->$varian;
+                            $hasil_cart_atribut->update();
+                        }
+                    }
+                }
+            }
+            return redirect()->back();
+        }
     }
 
     /**
