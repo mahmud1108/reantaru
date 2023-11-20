@@ -20,7 +20,6 @@ class CartController extends Controller
      */
     public function index()
     {
-        dd(auth()->user());
     }
 
     /**
@@ -62,10 +61,11 @@ class CartController extends Controller
      */
     public function show($cart)
     {
-        $cart = Cart::where('id', $cart)->where('customer_id', auth()->user()->id)->get();
+        $cart = Cart::where('id', $cart)->where('customer_id', auth()->user()->id)->first();
+
         $kategoris = Kategori::all();
 
-        if (count($cart) > 0) {
+        if ($cart !== null) {
             $galeris = [];
             foreach ($cart->produk->galeri as $galeri) {
                 if ($galeri->galeri_status == 'aktif') {
