@@ -8,8 +8,8 @@
         <div class="off-canvas-inner">
             <!-- search box start -->
             <div class="search-box-offcanvas">
-                <form method="get" action="produk.php">
-                    <input type="text" name="s" placeholder="Tulis yang kamu fikirkan..">
+                <form method="get" action="{{ route('search') }}">
+                    <input type="text" name="query" placeholder="Tulis yang kamu fikirkan..">
                     <button class="search-btn" type="submit"><i class="lnr lnr-magnifier"></i></button>
                 </form>
             </div>
@@ -26,25 +26,24 @@
                         <li class="menu-item-has-children">
                             <a href="kategori.php">Kategori</a>
                             <ul class="dropdown">
-                                {{-- <?php
-                                $m_kategori = mysqli_query($koneksi, 'SELECT * FROM kategori');
-                                while ($d_kategori = mysqli_fetch_assoc($m_kategori)) {
-                                    echo "<li><a href='kategori.php?q=$d_kategori[kategori_id]'>$d_kategori[kategori_nama]</a></li>";
-                                }
-                                ?> --}}
+                                @foreach ($kategoris as $kategori)
+                                    <li><a
+                                            href={{ route('satu-kategori', ['slug' => $kategori->kategori_nama]) }}>{{ $kategori->kategori_nama }}</a>
+                                    </li>
+                                @endforeach
                             </ul>
                         </li>
                         <li><a href="produk.php">Produk</a></li>
                         <li><a href="tentang-kami.php">Tentang Kami</a></li>
                         <li class="mega-title menu-item-has-children"><a href="#">Akun</a>
                             <ul class="dropdown">
-                                {{-- <?php if (isset($_SESSION['masuk'])) { ?>
-                                <li><a href="my-account.php">my account</a></li>
-                                <li><a href="logout.php">Logout</a></li>
-                                <?php } else { ?>
-                                <li><a href="login-register.php">login</a></li>
-                                <li><a href="login-register.php">register</a></li>
-                                <?php } ?> --}}
+                                @if (auth()->guard('customer')->user())
+                                    <li><a href="{{ route('my-acc') }}">my account</a></li>
+                                    <li><a href="{{ route('logout') }}">Logout</a></li>
+                                @else
+                                    <li><a href="{{ route('login_register_customer') }}">login</a></li>
+                                    <li><a href="{{ route('login_register_customer') }}">register</a></li>
+                                @endif
                             </ul>
                         </li>
                     </ul>

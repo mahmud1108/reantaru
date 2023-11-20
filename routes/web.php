@@ -57,7 +57,7 @@ Route::get('/detail_produk/{slug}', [ShopController::class, 'detail_produk'])->n
 
 
 Route::middleware(['auth:customer'])->group(function () {
-    route::resource('cart', CartController::class)->only('store', 'show', 'update', 'destroy');
+    route::resource('cart', CartController::class)->only('index', 'store', 'show', 'update', 'destroy');
     Route::post('/cart/{cartAtribut}', [CartController::class, 'cart_atribut_destroy'])->name('cart_atribut_destroy');
     Route::get('/cart_file/download/{filename}', [CartController::class, 'download'])->name('download');
 

@@ -9,20 +9,101 @@ use App\Models\Kategori;
 use App\Models\Produk;
 use Illuminate\Http\Client\ResponseSequence;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 
 class ProfileController extends Controller
 {
-    protected $kategoris;
+    protected $kategoris, $jml_cart, $user, $data_carts_modal, $carts, $total_harga_modal;
     public function __construct()
     {
-        $this->kategoris = Kategori::all();
+        $this->middleware(function ($request, $next) {
+            $this->user = Auth::user();
+
+            $this->kategoris = Kategori::all();
+
+            if ($this->user) {
+                $this->jml_cart = Cart::where('customer_id', $this->user->id)->count();
+            } else {
+                $this->jml_cart = 0;
+            }
+
+            $this->data_carts_modal = [];
+            if ($this->user) {
+                $this->carts = Cart::where('customer_id', $this->user->id)->get();
+                foreach ($this->carts as $cart) {
+                    $cart_atributs = [];
+                    foreach ($cart->cart_atribut as $cart_atribut) {
+                        $jml_harga_atribut =  $cart->cart_jumlah * $cart_atribut->atribut->harga_tambahan;
+                        $cart_atributs[] =
+                            [
+                                'cart_atribut_id' => $cart_atribut->id,
+                                'atribut_nama' => $cart_atribut->atribut->atribut_nama,
+                                'varian_nama' => $cart_atribut->atribut->varian->varian_nama,
+                                'harga_tambahan' => $cart_atribut->atribut->harga_tambahan,
+                                'jml_harga_tambahan' => $jml_harga_atribut
+                            ];
+                    }
+                    $galeris = [];
+                    foreach ($cart->produk->galeri as $galeri) {
+                        if ($galeri->galeri_status == 'aktif') {
+                            $galeris[] =
+                                [
+                                    'galeri_id' => $galeri->id,
+                                    'galeri_file' => $galeri->galeri_file
+                                ];
+                            break;
+                        }
+                    }
+
+                    $jml_harga =  $cart->produk->produk_harga * $cart->cart_jumlah;
+                    if (count($cart_atributs) < 1) {
+                        $this->data_carts_modal[] =
+                            [
+                                'cart_id' => $cart->id,
+                                'cart_jumlah' => $cart->cart_jumlah,
+                                'produk_nama' => $cart->produk->produk_nama,
+                                'produk_harga' => $cart->produk->produk_harga,
+                                'galeri' => $galeris,
+                                'cart_atribut' => $cart_atributs,
+                                'total_harga' => $jml_harga
+                            ];
+                    } else {
+                        $total = 0;
+                        for ($i = 0; $i < count($cart_atributs); $i++) {
+                            $total += $cart_atributs[$i]['jml_harga_tambahan'];
+                        }
+                        $this->data_carts_modal[] =
+                            [
+                                'cart_id' => $cart->id,
+                                'cart_jumlah' => $cart->cart_jumlah,
+                                'produk_nama' => $cart->produk->produk_nama,
+                                'produk_harga' => $cart->produk->produk_harga,
+                                'galeri' => $galeris,
+                                'cart_atribut' => $cart_atributs,
+                                'total_harga' => $jml_harga + $total
+                            ];
+                    }
+                }
+
+                $this->total_harga_modal = 0;
+                for ($i = 0; $i < count($this->data_carts_modal); $i++) {
+                    $this->total_harga_modal += $this->data_carts_modal[$i]['total_harga'];
+                }
+            } else {
+                $this->data_carts_modal = [];
+            }
+            return $next($request);
+        });
     }
 
     public function index()
     {
+        $data_carts_modal = $this->data_carts_modal;
         $kategoris = $this->kategoris;
+        $jml_cart = $this->jml_cart;
+        $total_harga_modal = $this->total_harga_modal;
 
         $carts = Cart::where('customer_id', auth()->user()->id)->get();
         $data_carts = [];
@@ -97,14 +178,16 @@ class ProfileController extends Controller
         for ($i = 0; $i < count($data_carts); $i++) {
             $total_harga += $data_carts[$i]['total'];
         }
-        // return response()->json($data_carts);
 
         return view(
             'shop.my-account',
             compact(
                 'kategoris',
                 'data_carts',
-                'total_harga'
+                'total_harga',
+                'jml_cart',
+                'data_carts_modal',
+                'total_harga_modal'
             )
         );
     }

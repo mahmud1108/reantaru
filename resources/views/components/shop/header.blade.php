@@ -105,18 +105,16 @@
                                             @endif
                                         </ul>
                                     </li>
-                                    <?php if (isset($_SESSION['masuk'])) {
-                  $cart = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM cart where cart_customer='$_SESSION[customer_id]'"));
-                ?>
-                                    <li>
-                                        <a href="#" class="minicart-btn">
-                                            <i class="lnr lnr-cart"></i>
-                                            <?php if ($cart > 0) { ?>
-                                            <div class="notification"><?= $cart ?></div>
-                                            <?php } ?>
-                                        </a>
-                                    </li>
-                                    <?php } ?>
+                                    @if (auth()->guard('customer')->user())
+                                        <li>
+                                            <a href="#" class="minicart-btn">
+                                                <i class="lnr lnr-cart"></i>
+                                                @if ($jml_cart > 0)
+                                                    <div class="notification">{{ $jml_cart }}</div>
+                                                @endif
+                                            </a>
+                                        </li>
+                                    @endif
                                 </ul>
                             </div>
                         </div>
@@ -144,7 +142,7 @@
                         </div>
                         <div class="mobile-menu-toggler">
                             <div class="mini-cart-wrap">
-                                <a href="cart.php">
+                                <a href="{{ route('cart.index') }}php">
                                     <i class="lnr lnr-cart"></i>
                                 </a>
                             </div>
@@ -162,3 +160,79 @@
     </div>
     <!-- mobile header end -->
 </header>
+
+@if (auth()->guard('customer')->user())
+    <div class="offcanvas-minicart-wrapper">
+        <div class="minicart-inner">
+            <div class="offcanvas-overlay"></div>
+            <div class="minicart-inner-content">
+                <div class="minicart-close">
+                    <i class="lnr lnr-cross"></i>
+                </div>
+                <div class="minicart-content-box">
+                    <div class="minicart-item-wrapper">
+                        <ul>
+                            @for ($i = 0; $i < count($data_carts_modal); $i++)
+                                <li class="minicart-item">
+                                    <div class="minicart-thumb">
+                                        <a href="product-details.php">
+                                            <img src="{{ asset($data_carts_modal[$i]['galeri'][0]['galeri_file']) }}"
+                                                alt="product">
+                                        </a>
+                                    </div>
+                                    <div class="minicart-content">
+                                        <h3 class="product-name">
+                                            <a
+                                                href="product-details.php">{{ $data_carts_modal[$i]['produk_nama'] }}</a>
+                                        </h3>
+                                        <p>
+                                            <span class="cart-quantity">{{ $data_carts_modal[$i]['cart_jumlah'] }}
+                                                <strong>&times;</strong></span>
+                                            <span class="cart-price">Rp.
+                                                {{ number_format($data_carts_modal[$i]['produk_harga'], 0, ',', '.') }}</span>
+                                        </p>
+                                        @for ($j = 0; $j < count($data_carts_modal[$i]['cart_atribut']); $j++)
+                                            <p>
+                                                <span
+                                                    class="cart-quantity">{{ $data_carts_modal[$i]['cart_atribut'][$j]['atribut_nama'] }}
+                                                    <sup>({{ $data_carts_modal[$i]['cart_atribut'][$j]['varian_nama'] }})</sup></span>
+                                            </p>
+                                            <p>
+                                                <span class="cart-quantity">{{ $data_carts_modal[$i]['cart_jumlah'] }}
+                                                    <strong>&times;</strong></span>
+                                                <span class="cart-price">Rp.
+                                                    {{ number_format($data_carts_modal[$i]['cart_atribut'][$j]['harga_tambahan'], 0, ',', '.') }}</span>
+                                            </p>
+                                        @endfor
+                                    </div>
+                                    <form action="{{ route('cart.destroy', $data_carts[$i]['cart_id']) }}"
+                                        method="post">
+                                        @csrf
+                                        @method('delete')
+                                        <button type="submit" class="minicart-remove" title="delete"><i
+                                                class="lnr lnr-cross"></i></button>
+                                    </form>
+                                </li>
+                            @endfor
+                        </ul>
+                    </div>
+
+                    <div class="minicart-pricing-box">
+                        <ul>
+                            <li class="total">
+                                <span>total</span>
+                                <span><strong>Rp.
+                                        {{ number_format($total_harga_modal, 0, ',', '.') }}</strong></span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="minicart-button">
+                        <a href="{{ route('cart.index') }}"><i class="fa fa-shopping-cart"></i> Lihat Keranjang</a>
+                        <a href="checkout.php"><i class="fa fa-share"></i> checkout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endif
