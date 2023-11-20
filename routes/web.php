@@ -61,6 +61,11 @@ Route::middleware(['auth:customer'])->group(function () {
     Route::post('/cart/{cartAtribut}', [CartController::class, 'cart_atribut_destroy'])->name('cart_atribut_destroy');
     Route::get('/cart_file/download/{filename}', [CartController::class, 'download'])->name('download');
 
+    Route::get('/coba', [CartController::class, 'coba']);
+    route::get('provinces', [CartController::class, 'province'])->name('provinces');
+    Route::get('cities', [CartController::class, 'citites'])->name('cities');
+    Route::post('cek-ongkir', [CartController::class, 'cek'])->name('check-ongkir');
+
     Route::get('/logout', [ShopController::class, "logout"])->name('logout');
     Route::get('/my-acacount', [ProfileController::class, 'index'])->name('my-acc');
     Route::post('/password', [ProfileController::class, 'password'])->name('password');
