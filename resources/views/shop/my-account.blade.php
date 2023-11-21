@@ -260,7 +260,7 @@
                                                                 <div class="col-lg-5 ml-auto">
                                                                     <!-- Cart Calculation Area -->
                                                                     <div class="cart-calculator-wrapper">
-                                                                        <a href="checkout.php"
+                                                                        <a href="{{ route('checkout') }}"
                                                                             class="btn btn__bg d-block">Proses Checkout</a>
                                                                     </div>
                                                                 </div>

@@ -171,6 +171,7 @@ class CartController extends Controller
         for ($i = 0; $i < count($data_carts); $i++) {
             $total_harga += $data_carts[$i]['total'];
         }
+
         return view(
             'shop.cart',
             compact(
@@ -224,7 +225,6 @@ class CartController extends Controller
     public function show($cart)
     {
         $cart = Cart::where('id', $cart)->where('customer_id', auth()->user()->id)->first();
-
         $kategoris = Kategori::all();
 
         if ($cart !== null) {
@@ -503,5 +503,93 @@ class CartController extends Controller
     public function coba()
     {
         return view('shop.coba');
+    }
+
+    public function checkout()
+    {
+        $kategoris = Kategori::all();
+
+        $carts = Cart::where('customer_id', auth()->user()->id)->get();
+        $data_carts = [];
+        foreach ($carts as $cart) {
+            $cart_atributs = [];
+            foreach ($cart->cart_atribut as $cart_atribut) {
+                $jml_harga_atribut =  $cart->cart_jumlah * $cart_atribut->atribut->harga_tambahan;
+
+                $cart_atributs[] =
+                    [
+                        'cart_atribut_id' => $cart_atribut->id,
+                        'atribut_id' => $cart_atribut->atribut_id,
+                        'varian_nama' => $cart_atribut->atribut->varian->varian_nama,
+                        'atribut_nama' => $cart_atribut->atribut->atribut_nama,
+                        'harga_tambahan' => 'Rp.' . number_format($cart_atribut->atribut->harga_tambahan, 0, ',', '.'),
+                        'jml_harga_tambahan' => 'Rp.' . number_format($jml_harga_atribut, 0, ',', '.'),
+                        'total_harga_tambahan' => $jml_harga_atribut
+                    ];
+            }
+
+            $produks = Produk::where('id', $cart->produk_id)->get();
+            foreach ($produks as $produk) {
+                $galeris = [];
+                foreach ($produk->galeri as $galeri) {
+                    if ($galeri->galeri_status == 'aktif') {
+                        $galeris[] =
+                            [
+                                'galeri' => $galeri->galeri_file
+                            ];
+                    }
+                }
+            }
+
+            $jml_harga =  $cart->produk->produk_harga * $cart->cart_jumlah;
+            if (count($cart_atributs) < 1) {
+                $data_carts[] =
+                    [
+                        'cart_id' => $cart->id,
+                        'cart_jumlah' => $cart->cart_jumlah,
+                        'cart_keterangan' => $cart->cart_keterangan,
+                        'cart_file' => $cart->cart_file,
+                        'produk_nama' => $cart->produk->produk_nama,
+                        'produk_harga' => 'Rp.' . number_format($cart->produk->produk_harga, 0, ',', '.'),
+                        'jml_harga' =>  'Rp.' . number_format($jml_harga, 0, ',', '.'),
+                        'total' => $jml_harga,
+                        'produk_thumb' => $galeris,
+                        'atribut' => $cart_atributs,
+                    ];
+            } else {
+                $total = 0;
+                for ($i = 0; $i < count($cart_atributs); $i++) {
+                    $total += $cart_atributs[$i]['total_harga_tambahan'];
+                }
+
+                $data_carts[] =
+                    [
+                        'cart_id' => $cart->id,
+                        'cart_jumlah' => $cart->cart_jumlah,
+                        'cart_keterangan' => $cart->cart_keterangan,
+                        'cart_file' => $cart->cart_file,
+                        'produk_nama' => $cart->produk->produk_nama,
+                        'produk_harga' => 'Rp.' . number_format($cart->produk->produk_harga, 0, ',', '.'),
+                        'jml_harga' =>  'Rp.' . number_format($jml_harga, 0, ',', '.'),
+                        'total' => $total + $jml_harga,
+                        'produk_thumb' => $galeris,
+                        'atribut' => $cart_atributs,
+                    ];
+            }
+        }
+
+        $total_harga = 0;
+        for ($i = 0; $i < count($data_carts); $i++) {
+            $total_harga += $data_carts[$i]['total'];
+        }
+
+        return view(
+            'shop.checkout',
+            compact(
+                'kategoris',
+                'data_carts',
+                'total_harga',
+            )
+        );
     }
 }

@@ -60,6 +60,7 @@ Route::middleware(['auth:customer'])->group(function () {
     route::resource('cart', CartController::class)->only('index', 'store', 'show', 'update', 'destroy');
     Route::post('/cart/{cartAtribut}', [CartController::class, 'cart_atribut_destroy'])->name('cart_atribut_destroy');
     Route::get('/cart_file/download/{filename}', [CartController::class, 'download'])->name('download');
+    Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
 
     Route::get('/coba', [CartController::class, 'coba']);
     route::get('provinces', [CartController::class, 'province'])->name('provinces');
