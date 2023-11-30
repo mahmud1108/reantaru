@@ -450,14 +450,11 @@ class CartController extends Controller
         }
     }
 
-    public function citites(Request $request)
+    public function citites($province_id)
     {
-        $a = City::where('name', 'like', '%' . $request->keyword . '%')->get();
-        // dd($cities);
-
         try {
-            $province = Province::where('id', $request->province_id)->first();
-            $cities = City::where('province_id', $province->id)->where('name', 'like', '%' . $request->keyword . '%')->get();
+            $province = Province::where('id', $province_id)->first();
+            $cities = City::where('province_id', $province->id)->get();
 
             $data = [];
             foreach ($cities as $city) {
@@ -583,12 +580,14 @@ class CartController extends Controller
             $total_harga += $data_carts[$i]['total'];
         }
 
+        $provinsis = Province::all();
         return view(
             'shop.checkout',
             compact(
                 'kategoris',
                 'data_carts',
                 'total_harga',
+                'provinsis',
             )
         );
     }

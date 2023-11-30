@@ -100,19 +100,17 @@
                             <label for="country">Provinsi Tujuan</label>
                             <select class="w-100" id="provinsi" name='provinsi' required>
                                 <option>Pilih Provinsi Tujuan</option>
+                                @foreach ($provinsis as $provinsi)
+                                    <option data-provinsi_nama="{{ $provinsi->name }}" value="{{ $provinsi->id }}">
+                                        {{ $provinsi->name }}</option>
+                                @endforeach
                             </select>
                         </div>
-                        <div class="invalid-feedback">
-                            Mohon isi Provinsi
-                        </div>
-                    </div>
-                    <div class="row">
+
                         <div class="col-md-12">
                             <label>Kabupaten</label>
-                            <select id="kabupaten" name="kabupaten" class="w-100" required></select>
-                        </div>
-                        <div class="invalid-feedback">
-                            Mohon isi Kabupaten
+                            <select id="kabupaten" name="kabupaten" class="w-100" required>
+                            </select>
                         </div>
                     </div>
 
@@ -152,4 +150,29 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('javascript')
+    <script>
+        $(document).ready(function() {
+            $('#provinsi').change(function() {
+                let provinsi_id = $('#provinsi').val()
+                $.ajax({
+                    type: "get",
+                    url: "/cities/" + provinsi_id,
+                    dataType: "json",
+                    success: function(response) {
+                        $('#kabupaten').empty();
+                        $.each(response, function(index, item) {
+                            let option = $('<option>', {
+                                value: item.id,
+                                text: item.text
+                            });
+                            console.log(option);
+                        });
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

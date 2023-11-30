@@ -64,7 +64,7 @@ Route::middleware(['auth:customer'])->group(function () {
 
     Route::get('/coba', [CartController::class, 'coba']);
     route::get('provinces', [CartController::class, 'province'])->name('provinces');
-    Route::get('cities', [CartController::class, 'citites'])->name('cities');
+    Route::get('/cities/{province_id}', [CartController::class, 'citites'])->name('cities');
     Route::post('cek-ongkir', [CartController::class, 'cek'])->name('check-ongkir');
 
     Route::get('/logout', [ShopController::class, "logout"])->name('logout');
